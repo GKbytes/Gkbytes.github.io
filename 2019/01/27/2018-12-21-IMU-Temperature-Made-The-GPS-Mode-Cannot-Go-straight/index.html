@@ -20,7 +20,7 @@
 
 
     <meta name="description" content="目的：为了解决磁罗盘总是需要校准的问题。最后发现由于外界温度太低，在IMU升温时候，加速度会产生偏移，导致GPS模式下无人机不能走直线。
-bi：1234567891011121314151617...">
+">
 
 
 
@@ -181,16 +181,6 @@ bi：1234567891011121314151617...">
     
     <div class="post-body post-content">
         <h2 id="目的："><a href="#目的：" class="headerlink" title="目的："></a>目的：</h2><p>为了解决磁罗盘总是需要校准的问题。最后发现由于外界温度太低，在IMU升温时候，加速度会产生偏移，导致GPS模式下无人机不能走直线。</p>
-<h2 id="bi："><a href="#bi：" class="headerlink" title="bi："></a>bi：</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">spencer@spencer-it1 MINGW64 /f/myself/<span class="number">643435675.</span>github.io (master)</span><br><span class="line">$ gem install jekyll</span><br><span class="line">Successfully installed jekyll<span class="number">-3.6</span><span class="number">.2</span></span><br><span class="line">Parsing documentation <span class="keyword">for</span> jekyll<span class="number">-3.6</span><span class="number">.2</span></span><br><span class="line">Done installing documentation <span class="keyword">for</span> jekyll after <span class="number">2</span> seconds</span><br><span class="line"><span class="number">1</span> gem installed</span><br><span class="line"></span><br><span class="line">spencer@spencer-it1 MINGW64 /f/myself/<span class="number">643435675.</span>github.io (master)</span><br><span class="line">$ jekyll s</span><br><span class="line">Configuration file: F:<span class="regexp">/myself/</span><span class="number">643435675.</span>github.io/_config.yml</span><br><span class="line">            Source: F:<span class="regexp">/myself/</span><span class="number">643435675.</span>github.io</span><br><span class="line">       Destination: F:<span class="regexp">/myself/</span><span class="number">643435675.</span>github.io/_site</span><br><span class="line"> Incremental build: disabled. Enable <span class="keyword">with</span> --incremental</span><br><span class="line">      Generating...</span><br><span class="line">                    done <span class="keyword">in</span> <span class="number">5.499</span> seconds.</span><br><span class="line">  Please add the following to your Gemfile to avoid polling <span class="keyword">for</span> changes:</span><br><span class="line">    gem <span class="string">'wdm'</span>, <span class="string">'&gt;= 0.1.0'</span> <span class="keyword">if</span> Gem.win_platform?</span><br><span class="line"> Auto-regeneration: enabled <span class="keyword">for</span> <span class="string">'F:/myself/643435675.github.io'</span></span><br><span class="line">    Server address: http:<span class="comment">//127.0.0.1:4001/</span></span><br><span class="line">  Server running... press ctrl-c to stop.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">spencer@spencer-it1 MINGW64 /f/myself/<span class="number">643435675.</span>github.io (master)</span><br><span class="line">$ jekyll serve</span><br><span class="line">Configuration file: F:<span class="regexp">/myself/</span><span class="number">643435675.</span>github.io/_config.yml</span><br><span class="line">            Source: F:<span class="regexp">/myself/</span><span class="number">643435675.</span>github.io</span><br><span class="line">       Destination: F:<span class="regexp">/myself/</span><span class="number">643435675.</span>github.io/_site</span><br><span class="line"> Incremental build: disabled. Enable <span class="keyword">with</span> --incremental</span><br><span class="line">      Generating...</span><br><span class="line">                    done <span class="keyword">in</span> <span class="number">2.859</span> seconds.</span><br><span class="line">  Please add the following to your Gemfile to avoid polling <span class="keyword">for</span> changes:</span><br><span class="line">    gem <span class="string">'wdm'</span>, <span class="string">'&gt;= 0.1.0'</span> <span class="keyword">if</span> Gem.win_platform?</span><br><span class="line"> Auto-regeneration: enabled <span class="keyword">for</span> <span class="string">'F:/myself/643435675.github.io'</span></span><br><span class="line">    Server address: http:<span class="comment">//127.0.0.1:4001/</span></span><br><span class="line">  Server running... press ctrl-c to stop.</span><br></pre></td></tr></table></figure>
-<p>主要进行了以上操作：<br>cd 643435675.github.io  文件夹下</p>
-<p>执行命令：</p>
-<p><code>gem install jekyll</code></p>
-<p>下一步：<br><code>jekyll s</code></p>
-<p>接下来：<br><code>jekyll serve</code></p>
-<p>然后这样就可以在浏览器中输入：<a href="http://127.0.0.1:4001/" target="_blank" rel="noopener">http://127.0.0.1:4001/</a> 进行刚刚文章的访问了。</p>
-<p>补充：</p>
-<p>因为首页与详情页显示某篇文章的内容是不一样的，在首页中进行文章的裁剪显示：<br>需要进行加入四个空行：<br><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">## 目的：</span></span><br><span class="line"></span><br><span class="line">写这篇文章的目的主要是为了测试在本地进行md文件的编写是否能使用hexo进行html生成，然后上传到github上，通过访问https://day21.top 这个网站查看能否看到最新的文章</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">## 操作步骤：</span></span><br></pre></td></tr></table></figure></p>
-<p>不进行添加的话，首页会把整篇文章完全展示出来，添加了四个空行之后就只会显示部分了，当然了，这篇文章在首页是显示的部分，也就是<strong>目的下的内容</strong></p>
 
     </div>
     
@@ -206,15 +196,15 @@ bi：1234567891011121314151617...">
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/01/27/2018-12-21-Auto-Mode/" class="pre-post btn btn-default" title="Auto Mode">
+        <a href="/2019/01/27/2018-12-04-PX4-估计和控制/" class="pre-post btn btn-default" title="PX4 估计和控制">
             <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">Auto Mode</span>
+            <span class="hidden-xs">PX4 估计和控制</span>
         </a>
     
     
-        <a href="/2019/01/27/2018-12-21-lijie-jupyter-notebook/" class="next-post btn btn-default" title="jupyter notebook">
+        <a href="/2019/01/27/2019-01-27-APM-Diagnosing-problems-using-Logs/" class="next-post btn btn-default" title="2019-01-27-APM-Diagnosing-problems-using-Logs">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">jupyter notebook</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">2019-01-27-APM-Diagnosing-problems-using-Logs</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
@@ -257,7 +247,7 @@ bi：1234567891011121314151617...">
     <div class="widget">
         <h3 class="title">Table of Contents</h3>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目的："><span class="toc-text">目的：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bi："><span class="toc-text">bi：</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目的："><span class="toc-text">目的：</span></a></li></ol>
         
     </div>
 </aside>

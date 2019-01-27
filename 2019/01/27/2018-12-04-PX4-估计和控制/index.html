@@ -190,89 +190,6 @@
 <li>姿态控制 mc_att_control</li>
 <li>位置控制 mc_pos_control<br>（都在modules文件夹下）</li>
 </ul>
-<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><p>pollevent_t events;  /<em> The input event flags </em>/</p>
-<p>pollevent_t revents; /<em> The output event flags </em>/</p>
-<h2 id="框架使用说明"><a href="#框架使用说明" class="headerlink" title="框架使用说明"></a>框架使用说明</h2><p><strong>News_scrapy_redis4. <a href="https://github.com/xudailong/News_scrapy_redis.git" target="_blank" rel="noopener">github地址</a></strong></p>
-<ol>
-<li><p><code>News_scrapy_redis</code> 基于<code>scrapy_redis</code>实现数据的增量爬取（含去重），支持分布式，支持异常日志等输出，功能模块化。</p>
-</li>
-<li><p>树结构：</p>
-</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">├─.idea</span><br><span class="line">├─Daily_crawler</span><br><span class="line">├─ETL</span><br><span class="line">├─log</span><br><span class="line">├─News_scrapy</span><br><span class="line">│  ├─spiders</span><br><span class="line">│  │  └─__pycache__</span><br><span class="line">│  └─__pycache__</span><br><span class="line">├─News_simhash</span><br><span class="line">└─News_statistics</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li><p>各模块说明：</p>
-<blockquote>
-<p>Daily_crawler：    </p>
-</blockquote>
-<ul>
-<li><code>daily_crawler.cron crontab</code>的定时文件, 定时运行<code>start_crawl.sh</code>脚本</li>
-<li><code>start_crawl.sh</code> 启动爬虫模块，并将每次爬取所花费的时间 写入 log/run_time.txt</li>
-<li><code>push_urls.py</code> 每次在爬虫之前运行，清空调度队列，并将start_url push到调度队列中</li>
-<li><p><code>news_crawl.sh</code> 执行爬虫模块（增量爬取）， 并自动进行相似文档去重，ETL, 存入mongodb</p>
-<blockquote>
-<p>ETL:（暂时用不到）</p>
-</blockquote>
-</li>
-<li><p><code>/Model</code> 存放训练好的词典，语料，TF-IDF，LDA， word2vec模型</p>
-</li>
-<li><code>auto_embedding.py</code> 新闻语料的清洗，以及自动化生成新闻的标题和内容embedding</li>
-<li><code>auto_embedding_simhash.py</code> 增加了自动化相似文档的去重</li>
-<li><code>stop_words</code> 常用的中文停留词</li>
-<li><code>train_step1</code> 训练LDA模型</li>
-<li><p><code>train_step2</code> 训练LDA模型</p>
-<blockquote>
-<p>log:</p>
-</blockquote>
-</li>
-<li><p><code>auto_embedding_simhash.log</code> 执行auto_embedding_simhash.py的日志文件</p>
-</li>
-<li><code>crawler.log</code> 执行scrapy-redis爬虫模块的日志文件</li>
-<li><code>news_count.log</code> 执行news_statistics.py的日志文件</li>
-<li><p><code>run_time.txt</code> 每次执行爬虫脚本的运行时间</p>
-<blockquote>
-<p>News_data:</p>
-</blockquote>
-</li>
-<li><p>每个文件夹是抓每天从各个网站抓取到的新闻</p>
-<blockquote>
-<p>News_scrapy:</p>
-</blockquote>
-</li>
-<li><p>基于scrapy-redis的爬虫模块，在scrapy的基础上修改得到</p>
-</li>
-<li><p>各大网站数据的爬取解析工作主要在该文件中进行</p>
-<blockquote>
-<p>News_simhash（此处只需要进行title的去重）:</p>
-</blockquote>
-</li>
-<li><p>实现相似文档的去重</p>
-</li>
-<li>automatic_simhash.py 自动实现相似文档的去重（仅基于新闻内容）</li>
-<li>content_index.pkl 序列化的新闻内容SimhashIndex类，相当于所有新闻sinhash_value的一张表，并且随着抓取的新闻越来越多，该表会不断增大title_index.pkl 序列化的新闻标题SimhashIndex类， 未使用</li>
-<li><code>generate_simhash_index.py</code> 初始化这张Simhash_index，生成content和title的Simhash_index</li>
-<li><code>near_duplicates.py</code> 对初始化的Simhash_index进行相似新闻内容的去重</li>
-<li><p>test.py 测试content_index.pkl中content_index类新闻的数量</p>
-<blockquote>
-<p>News_statistics:</p>
-</blockquote>
-</li>
-<li><p><code>news_count.json</code> 每天从各个网站抓取的新闻数量</p>
-</li>
-<li><code>news_statistics.py</code> 统计新闻增量的脚本</li>
-</ul>
-</li>
-</ol>
-<h2 id="框架环境"><a href="#框架环境" class="headerlink" title="框架环境"></a>框架环境</h2><ol>
-<li>Redis环境环境</li>
-<li>scrapy框架环境</li>
-<li>python3环境环境</li>
-</ol>
-<h2 id="框架完善"><a href="#框架完善" class="headerlink" title="框架完善"></a>框架完善</h2><ol>
-<li>IP代理池</li>
-<li>cookies池 </li>
-<li>其他</li>
-</ol>
 
     </div>
     
@@ -288,15 +205,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/01/27/2018-12-04-PX4-LeddarTech-one/" class="pre-post btn btn-default" title="PX4 LeddarTech One">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">PX4 LeddarTech One</span>
-        </a>
     
-    
-        <a href="/2019/01/27/2018-12-20-判断遥控丢失条件/" class="next-post btn btn-default" title="判断遥控丢失条件">
+        <a href="/2019/01/27/2018-12-21-IMU-Temperature-Made-The-GPS-Mode-Cannot-Go-straight/" class="next-post btn btn-default" title="In order to solve the problem of the compass always need to calibrate">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">判断遥控丢失条件</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">In order to solve the problem of the compass always need to calibrate</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
@@ -339,7 +251,7 @@
     <div class="widget">
         <h3 class="title">Table of Contents</h3>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架使用说明"><span class="toc-text">框架使用说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架环境"><span class="toc-text">框架环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架完善"><span class="toc-text">框架完善</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li></ol>
         
     </div>
 </aside>
