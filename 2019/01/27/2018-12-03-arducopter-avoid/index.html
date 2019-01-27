@@ -182,11 +182,11 @@
     <div class="post-body post-content">
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。</p>
 <h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：<br><img src="/2019/01/27/2018-12-03-arducopter-avoid/Loiter_adjust_velocity.png"><br>接着进入调整速度函数：</p>
-<p><img src="https://raw.githubusercontent.com/GKbytes/gkbytes.github.io/master/photos/adjust_velocity.png"></p>
+<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/adjust_velocity.png"></p>
 <p>再进入真正避障速度调整：</p>
-<p><img src="https://raw.githubusercontent.com/GKbytes/gkbytes.github.io/master/photos/adjust_velocity_p.png"></p>
+<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/adjust_velocity_p.png"></p>
 <p>最关键的是：</p>
-<p><img src="https://raw.githubusercontent.com/GKbytes/gkbytes.github.io/master/photos/1.png"><br><img src="https://raw.githubusercontent.com/GKbytes/gkbytes.github.io/master/photos/2.png"></p>
+<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/1.png"><br><img src="/2019/01/27/2018-12-03-arducopter-avoid/2.png"></p>
 <h2 id="目前存在问题"><a href="#目前存在问题" class="headerlink" title="目前存在问题"></a>目前存在问题</h2><ul>
 <li>前后走动会引起左右避障;</li>
 <li>速度过快时，提前避障幅度太大。（提前避障做的不是很好）</li>
