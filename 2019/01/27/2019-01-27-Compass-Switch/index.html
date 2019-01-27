@@ -5,15 +5,20 @@
   
 
   
-  <title>记录笔记</title>
+  <title>Compass-Switch | 记录笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="记录笔记">
-<meta property="og:url" content="http://gkbytes.github.io/index.html">
+  <meta name="description" content="由于飞行器罗盘容易挂掉，故现在开始研究APM 罗盘切换。 如何做：检测到罗盘里的时间轴不更新，则开始执行切换罗盘，切换罗盘就是切换主罗盘，那么就是切换那个主标志：_primary = 0 (用第一罗盘)/ _primary = 1（用第二罗盘）。 COMPASS_PRIMARY: Choose primary compassNote: This parameter is for advanced">
+<meta name="keywords" content="APM Compass">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Compass-Switch">
+<meta property="og:url" content="http://gkbytes.github.io/2019/01/27/2019-01-27-Compass-Switch/index.html">
 <meta property="og:site_name" content="记录笔记">
+<meta property="og:description" content="由于飞行器罗盘容易挂掉，故现在开始研究APM 罗盘切换。 如何做：检测到罗盘里的时间轴不更新，则开始执行切换罗盘，切换罗盘就是切换主罗盘，那么就是切换那个主标志：_primary = 0 (用第一罗盘)/ _primary = 1（用第二罗盘）。 COMPASS_PRIMARY: Choose primary compassNote: This parameter is for advanced">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-27T06:24:32.282Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记录笔记">
+<meta name="twitter:title" content="Compass-Switch">
+<meta name="twitter:description" content="由于飞行器罗盘容易挂掉，故现在开始研究APM 罗盘切换。 如何做：检测到罗盘里的时间轴不更新，则开始执行切换罗盘，切换罗盘就是切换主罗盘，那么就是切换那个主标志：_primary = 0 (用第一罗盘)/ _primary = 1（用第二罗盘）。 COMPASS_PRIMARY: Choose primary compassNote: This parameter is for advanced">
   
     <link rel="alternate" href="/atom.xml" title="记录笔记" type="application/atom+xml">
   
@@ -64,9 +69,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-2019-01-27-Compass-Switch" class="article article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-2019-01-27-Compass-Switch" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/27/2019-01-27-Compass-Switch/" class="article-date">
   <time datetime="2019-01-27T05:51:31.000Z" itemprop="datePublished">2019-01-27</time>
@@ -79,8 +82,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/27/2019-01-27-Compass-Switch/">Compass-Switch</a>
+    <h1 class="article-title" itemprop="name">
+      Compass-Switch
     </h1>
   
 
@@ -116,56 +119,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/26/hello-world/" class="article-date">
-  <time datetime="2019-01-26T07:02:17.390Z" itemprop="datePublished">2019-01-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/26/hello-world/">Hello World</a>
-    </h1>
+    <a href="/2019/01/26/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://gkbytes.github.io/2019/01/26/hello-world/" data-id="cjreive7u0000zs4g2leq9kwy" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
