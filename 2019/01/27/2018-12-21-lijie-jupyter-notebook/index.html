@@ -19,12 +19,10 @@
     <meta name="keywords" content="python notebook">
 
 
-    <meta name="description" content="
-content{:toc}
-
-如何使用 lijie jupyter notebook
+    <meta name="description" content="如何使用 lijie jupyter notebook
 初步方法
-在 mmc_ulog_viewer 文件夹下打开terminal 输入 jupyter note...">
+在 mmc_ulog_viewer 文件夹下打开terminal 输入 jupyter notebook 即可。
+打开 atti...">
 
 
 
@@ -184,10 +182,7 @@ content{:toc}
     </div>
     
     <div class="post-body post-content">
-        <ul>
-<li>content<br>{:toc}</li>
-</ul>
-<p>如何使用 lijie jupyter notebook</p>
+        <p>如何使用 lijie jupyter notebook</p>
 <h2 id="初步方法"><a href="#初步方法" class="headerlink" title="初步方法"></a>初步方法</h2><ul>
 <li>在 mmc_ulog_viewer 文件夹下打开terminal 输入 jupyter notebook 即可。</li>
 <li>打开 attitude_control 修改文件路径即可。</li>
@@ -195,19 +190,7 @@ content{:toc}
 <li>然后点击&gt;|就运行</li>
 <li>用Ctrl+s 保存</li>
 </ul>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>获取剩余时间的代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取剩余时间</span></span><br><span class="line"><span class="comment"> * @param  &#123;Number&#125; endTime    截止时间</span></span><br><span class="line"><span class="comment"> * @param  &#123;Number&#125; deviceTime 设备时间</span></span><br><span class="line"><span class="comment"> * @param  &#123;Number&#125; serverTime 服务端时间</span></span><br><span class="line"><span class="comment"> * @return &#123;Object&#125;            剩余时间对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> getRemainTime = <span class="function">(<span class="params">endTime, deviceTime, serverTime</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> t = endTime - <span class="built_in">Date</span>.parse(<span class="keyword">new</span> <span class="built_in">Date</span>()) - serverTime + deviceTime</span><br><span class="line">    <span class="keyword">let</span> seconds = <span class="built_in">Math</span>.floor((t / <span class="number">1000</span>) % <span class="number">60</span>)</span><br><span class="line">    <span class="keyword">let</span> minutes = <span class="built_in">Math</span>.floor((t / <span class="number">1000</span> / <span class="number">60</span>) % <span class="number">60</span>)</span><br><span class="line">    <span class="keyword">let</span> hours = <span class="built_in">Math</span>.floor((t / (<span class="number">1000</span> * <span class="number">60</span> * <span class="number">60</span>)) % <span class="number">24</span>)</span><br><span class="line">    <span class="keyword">let</span> days = <span class="built_in">Math</span>.floor(t / (<span class="number">1000</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span>))</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'total'</span>: t,</span><br><span class="line">        <span class="string">'days'</span>: days,</span><br><span class="line">        <span class="string">'hours'</span>: hours,</span><br><span class="line">        <span class="string">'minutes'</span>: minutes,</span><br><span class="line">        <span class="string">'seconds'</span>: seconds</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><del>获取服务器时间可以使用 mtop 接口 <code>mtop.common.getTimestamp</code> </del></p>
-<p>然后可以通过下面的方式来使用：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取服务端时间（获取服务端时间代码略）</span></span><br><span class="line">getServerTime(<span class="function">(<span class="params">serverTime</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置定时器</span></span><br><span class="line">    <span class="keyword">let</span> intervalTimer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 得到剩余时间</span></span><br><span class="line">        <span class="keyword">let</span> remainTime = getRemainTime(endTime, deviceTime, serverTime)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 倒计时到两个小时内</span></span><br><span class="line">        <span class="keyword">if</span> (remainTime.total &lt;= <span class="number">7200000</span> &amp;&amp; remainTime.total &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// do something</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//倒计时结束</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (remainTime.total &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            clearInterval(intervalTimer);</span><br><span class="line">            <span class="comment">// do something</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>这样的的写法也可以做到准确倒计时，同时也比较简洁。不需要隔段时间再去同步一次服务端时间。</p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在写倒计时的时候遇到了一个坑这里记录一下。</p>
-<p><strong>千万别在倒计时结束的时候请求接口</strong>。会让服务端瞬间 QPS 峰值达到非常高。</p>
-<p><img src="https://img.alicdn.com/tfs/TB1LBzjOpXXXXcnXpXXXXXXXXXX-154-71.png" alt=""></p>
-<p>如果在倒计时结束的时候要使用新的数据渲染页面，正确的做法是：</p>
-<p>在倒计时结束前的一段时间里，先请求好数据，倒计时结束后，再渲染页面。</p>
-<p>关于倒计时，如果你有什么更好的解决方案，欢迎评论交流。</p>
-
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2>
     </div>
     
     <div class="post-footer">
@@ -222,15 +205,15 @@ content{:toc}
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/01/27/2018-12-03-PX4-Nuttx-Add-File/" class="pre-post btn btn-default" title="基于PX4的Nuttx实时操作系统编程">
+        <a href="/2019/01/27/2018-12-21-IMU-Temperature-Made-The-GPS-Mode-Cannot-Go-straight/" class="pre-post btn btn-default" title="In order to solve the problem of the compass always need to calibrate">
             <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">基于PX4的Nuttx实时操作系统编程</span>
+            <span class="hidden-xs">In order to solve the problem of the compass always need to calibrate</span>
         </a>
     
     
-        <a href="/2019/01/27/2018-12-21-IMU-Temperature-Made-The-GPS-Mode-Cannot-Go-straight/" class="next-post btn btn-default" title="In order to solve the problem of the compass always need to calibrate">
+        <a href="/2019/01/27/2019-01-27-Compass-Switch/" class="next-post btn btn-default" title="Compass-Switch">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">In order to solve the problem of the compass always need to calibrate</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">Compass-Switch</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
@@ -273,7 +256,7 @@ content{:toc}
     <div class="widget">
         <h3 class="title">Table of Contents</h3>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#初步方法"><span class="toc-text">初步方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充"><span class="toc-text">补充</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#初步方法"><span class="toc-text">初步方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
         
     </div>
 </aside>
