@@ -154,7 +154,7 @@
     <div class="post-content">
         <div class="post-head home-post-head">
             <h1 class="post-title">
-                <a href="/2019/01/27/2018-12-03-arducopter-avoid/">arducopter避障分析</a>
+                <a href="/2019/01/27/2018-12-03-PX4-Nuttx-Add-File/">基于PX4的Nuttx实时操作系统编程</a>
             </h1>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
@@ -164,10 +164,9 @@
         </div>
         <p class="brief">
             
-                前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
-内容在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：接着进入调整速度函数：
-
-再...
+                简介上一篇介绍的是baro的uORB通信方法，现在同样介绍baro MS5611 加入Nuttx中编译的方法。
+Cmake基础
+首先谈谈何为make熟悉linux系统的朋友对make肯定不陌生，它就是用来读取Makefile文件然后执...
             
         </p>
     </div>
@@ -178,7 +177,7 @@
     
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/arducopter/">arducopter</a>
+            <a class="category-link" href="/categories/PX4/">PX4</a>
         </span>
     
 
@@ -187,7 +186,7 @@
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/UAV-APM-arducopter-sf40-避障/">UAV APM arducopter sf40 避障</a>
+                    <a class="tag-link" href="/tags/PX4-Nuttx/">PX4 Nuttx</a>
                 
             </span>
         </span>
@@ -198,7 +197,72 @@
             </div>
 
             <div class="post-permalink">
-                <a href="/2019/01/27/2018-12-03-arducopter-avoid/" class="btn btn-default">Read</a>
+                <a href="/2019/01/27/2018-12-03-PX4-Nuttx-Add-File/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2019/01/27/2018-12-21-lijie-jupyter-notebook/">
+                <img class="img-ajax" src="/img/loading.gif" data-src="https://img.alicdn.com/tfs/TB1LBzjOpXXXXcnXpXXXXXXXXXX-154-71.png" alt="jupyter notebook">
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-21-lijie-jupyter-notebook/">jupyter notebook</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+如何使用 lijie jupyter notebook
+初步方法
+在 mmc_ulog_viewer 文件夹下打开terminal 输入 jupyter notebook 即可。
+打开 attitude...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/jupyter-notebook/">jupyter notebook</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/python-notebook/">python notebook</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-21-lijie-jupyter-notebook/" class="btn btn-default">Read</a>
             </div>
         </footer>
     
@@ -210,7 +274,7 @@
     <div class="post-content">
         <div class="post-head home-post-head">
             <h1 class="post-title">
-                <a href="/2019/01/27/2018-12-03-APM-startup-tone/">APM startup tone</a>
+                <a href="/2019/01/27/2018-12-21-IMU-Temperature-Made-The-GPS-Mode-Cannot-Go-straight/">In order to solve the problem of the compass always need to calibrate</a>
             </h1>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
@@ -220,11 +284,11 @@
         </div>
         <p class="brief">
             
-                APM飞控板启动音调。
-先上代码#define AP_NOTIFY_TONE_STARTUP 29
-    { &amp;quot;MFT225O3L8GL8GL8GL2B&amp;quot;, false },
-}
-1234567891011121...
+                
+content{:toc}
+
+目的：为了解决磁罗盘总是需要校准的问题。最后发现由于外界温度太低，在IMU升温时候，加速度会产生偏移，导致GPS模式下无人机不能走直线。
+bi：12345678910111213141516171819...
             
         </p>
     </div>
@@ -235,7 +299,7 @@
     
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/APM/">APM</a>
+            <a class="category-link" href="/categories/compass-calibrate/">compass calibrate</a>
         </span>
     
 
@@ -244,7 +308,7 @@
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/startup-tone-APM/">startup tone APM</a>
+                    <a class="tag-link" href="/tags/APM/">APM</a>
                 
             </span>
         </span>
@@ -255,7 +319,7 @@
             </div>
 
             <div class="post-permalink">
-                <a href="/2019/01/27/2018-12-03-APM-startup-tone/" class="btn btn-default">Read</a>
+                <a href="/2019/01/27/2018-12-21-IMU-Temperature-Made-The-GPS-Mode-Cannot-Go-straight/" class="btn btn-default">Read</a>
             </div>
         </footer>
     
@@ -264,10 +328,16 @@
 
 <article class="post">
     
+        <div class="post-media">
+            <a href="/2019/01/27/2018-12-21-Compass-Switch/">
+                <img class="img-ajax" src="/img/loading.gif" data-src="https://img.alicdn.com/tfs/TB1LBzjOpXXXXcnXpXXXXXXXXXX-154-71.png" alt="Compass Switch">
+            </a>
+        </div>
+    
     <div class="post-content">
         <div class="post-head home-post-head">
             <h1 class="post-title">
-                <a href="/2019/01/27/2019-01-27-Compass-Switch/">Compass-Switch</a>
+                <a href="/2019/01/27/2018-12-21-Compass-Switch/">Compass Switch</a>
             </h1>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
@@ -277,8 +347,11 @@
         </div>
         <p class="brief">
             
-                由于飞行器罗盘容易挂掉，故现在开始研究APM 罗盘切换。
-如何做：检测到罗盘里的时间轴不更新，则开始执行切换罗盘，切换罗盘就是切换主罗盘，那么就是切换那个主标志：_primary = 0 (用第一罗盘)/ _primary = 1（用...
+                
+content{:toc}
+
+由于飞行器罗盘容易挂掉，故现在开始研究APM 罗盘切换。
+如何做：检测到罗盘里的时间轴不更新，则开始执行切换罗盘，切换罗盘就是切换主罗盘，那么就是切换那个主标志：_primary = 0 (用第一罗盘)...
             
         </p>
     </div>
@@ -289,7 +362,7 @@
     
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            
+            <a class="category-link" href="/categories/Arducopter-Compass/">Arducopter Compass</a>
         </span>
     
 
@@ -309,7 +382,360 @@
             </div>
 
             <div class="post-permalink">
-                <a href="/2019/01/27/2019-01-27-Compass-Switch/" class="btn btn-default">Read</a>
+                <a href="/2019/01/27/2018-12-21-Compass-Switch/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-21-Auto-Mode/">Auto Mode</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+简介：*自动飞行模式的初始化和运行调用
+*此文件包含陆地、航路点导航和自动起飞模式的实现。
+*命令执行代码（即command_logic.pde）应：
+*a）使用set_mode（）功能切换到自动飞行模...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Arducopter-Auto-Mode/">Arducopter Auto_Mode</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/APM-Auto/">APM Auto</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-21-Auto-Mode/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-20-判断遥控丢失条件/">判断遥控丢失条件</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+遥控器丢失判断条件如果使用RC_OVERRIDE，则在500毫秒或2000毫秒内没有来自RC无线电的更新，则判断丢失遥控。
+低电平低于975 3次就触发遥控器丢失报警
+
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/APM/">APM</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/failsafe-radio-APM/">failsafe.radio APM</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-20-判断遥控丢失条件/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-18-Arducopter-Log/">Arducopter Log</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+目录：
+[TOC]
+遥控输入cin：
+分别是：俯仰（C1）、翻滚（C2）、油门（C3）、航向（C4）
+
+
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/arducopter/">arducopter</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/arducopter-Log/">arducopter Log</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-18-Arducopter-Log/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-04-PX4-估计和控制/">PX4 估计和控制</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+前言目前在学习PX4，目的为做避障，需要用到控制相关知识：
+
+姿态估计 Attitude_estimator_q
+位置估计 position_estimator_inav
+姿态控制 mc_att_con...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/PX4姿态、位置估计和控制/">PX4姿态、位置估计和控制</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/PX4-姿态估计-位置估计-姿态控制-位置控制/">PX4 姿态估计 位置估计 姿态控制 位置控制</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-04-PX4-估计和控制/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-04-PX4-LeddarTech-one/">PX4 LeddarTech One</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+前言LeddarTech 公司的产品开发资料在官网上找不到，都在技术支持网站中：https://support.leddartech.com/login
+LeddarOne驱动1 先请求：1234567...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/PX4/">PX4</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/LeddarTech-PX4/">LeddarTech PX4</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-04-PX4-LeddarTech-one/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-03-PX4-uORB/">以MS5611气压计数据分析PX4 uORB</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+content{:toc}
+
+概念pixhawk的发布订阅机制是通过“微对象请求代理”（uORB）来实现的。
+自定义主题
+要定义一个自定义主题，发布者需要提供给订阅者一个头文件（参考sensor_baro.h），在这个头文件中必须有...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/笔记/">笔记</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/MS5611-PX4-uORB/">MS5611 PX4 uORB</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-03-PX4-uORB/" class="btn btn-default">Read</a>
             </div>
         </footer>
     
@@ -317,6 +743,12 @@
 
 
 
+
+    <nav class="pagination" role="navigation">
+        <div id="page-nav">
+            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+        </div>
+    </nav>
 
 
 
@@ -407,7 +839,7 @@
         
     <div class="widget">
         <h3 class="title">Categories</h3>
-        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/APM/"><i class="fa" aria-hidden="true">APM</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/arducopter/"><i class="fa" aria-hidden="true">arducopter</i></a><span class="category-list-count">1</span></li></ul>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/APM/"><i class="fa" aria-hidden="true">APM</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arducopter-Auto-Mode/"><i class="fa" aria-hidden="true">Arducopter Auto_Mode</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arducopter-Compass/"><i class="fa" aria-hidden="true">Arducopter Compass</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PX4/"><i class="fa" aria-hidden="true">PX4</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PX4姿态、位置估计和控制/"><i class="fa" aria-hidden="true">PX4姿态、位置估计和控制</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/arducopter/"><i class="fa" aria-hidden="true">arducopter</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/compass-calibrate/"><i class="fa" aria-hidden="true">compass calibrate</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jupyter-notebook/"><i class="fa" aria-hidden="true">jupyter notebook</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔记/"><i class="fa" aria-hidden="true">笔记</i></a><span class="category-list-count">1</span></li></ul>
     </div>
 
 
@@ -415,7 +847,7 @@
         
     <div class="widget">
         <h3 class="title">Archives</h3>
-        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/"><i class="fa" aria-hidden="true">2019年01月</i></a><span class="archive-list-count">3</span></li></ul>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/"><i class="fa" aria-hidden="true">2019年01月</i></a><span class="archive-list-count">13</span></li></ul>
     </div>
 
 
@@ -425,7 +857,7 @@
     <h3 class="title">Tag Cloud</h3>
     <div class="content tag-cloud">
         
-            <a href="/tags/APM-Compass/" style="font-size: 10px;">APM Compass</a> <a href="/tags/UAV-APM-arducopter-sf40-避障/" style="font-size: 10px;">UAV APM arducopter sf40 避障</a> <a href="/tags/startup-tone-APM/" style="font-size: 10px;">startup tone APM</a>
+            <a href="/tags/APM/" style="font-size: 10px;">APM</a> <a href="/tags/APM-Auto/" style="font-size: 10px;">APM Auto</a> <a href="/tags/APM-Compass/" style="font-size: 20px;">APM Compass</a> <a href="/tags/LeddarTech-PX4/" style="font-size: 10px;">LeddarTech PX4</a> <a href="/tags/MS5611-PX4-uORB/" style="font-size: 10px;">MS5611 PX4 uORB</a> <a href="/tags/PX4-Nuttx/" style="font-size: 10px;">PX4 Nuttx</a> <a href="/tags/PX4-姿态估计-位置估计-姿态控制-位置控制/" style="font-size: 10px;">PX4 姿态估计 位置估计 姿态控制 位置控制</a> <a href="/tags/UAV-APM-arducopter-sf40-避障/" style="font-size: 10px;">UAV APM arducopter sf40 避障</a> <a href="/tags/arducopter-Log/" style="font-size: 10px;">arducopter Log</a> <a href="/tags/failsafe-radio-APM/" style="font-size: 10px;">failsafe.radio APM</a> <a href="/tags/python-notebook/" style="font-size: 10px;">python notebook</a> <a href="/tags/startup-tone-APM/" style="font-size: 10px;">startup tone APM</a>
         
     </div>
   </div>

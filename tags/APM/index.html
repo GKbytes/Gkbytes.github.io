@@ -31,7 +31,7 @@
     <!--Title-->
 
 
-<title>Tag: UAV APM arducopter sf40 避障 | 笔记</title>
+<title>Tag: APM | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -140,7 +140,7 @@
 
                     <h3>
     
-        UAV APM arducopter sf40 避障
+        APM
     
     
 </h3>
@@ -150,7 +150,7 @@
         <div class="post-content">
             <div class="post-head home-post-head">
                 <h1 class="post-title">
-                    <a href="/2019/01/27/2018-12-03-arducopter-avoid/">arducopter避障分析</a>
+                    <a href="/2019/01/27/2018-12-21-IMU-Temperature-Made-The-GPS-Mode-Cannot-Go-straight/">In order to solve the problem of the compass always need to calibrate</a>
                 </h1>
                 <div class="post-meta">  &bull;
                     <time class="post-date" datetime="" title="">
@@ -160,10 +160,11 @@
             </div>
             <p class="brief">
                 
-                    前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
-内容在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：接着进入调整速度函数：
+                    
+content{:toc}
 
-再...
+目的：为了解决磁罗盘总是需要校准的问题。最后发现由于外界温度太低，在IMU升温时候，加速度会产生偏移，导致GPS模式下无人机不能走直线。
+bi：12345678910111213141516171819...
                 
             </p>
         </div>

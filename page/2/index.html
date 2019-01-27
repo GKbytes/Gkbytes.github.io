@@ -31,7 +31,7 @@
     <!--Title-->
 
 
-<title>Tag: UAV APM arducopter sf40 避障 | 笔记</title>
+<title>笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -138,41 +138,191 @@
             <div class="row">
                 <main class="col-md-8 main-content ">
 
-                    <h3>
-    
-        UAV APM arducopter sf40 避障
-    
-    
-</h3>
+                    
+    <div class="carousel">
+        <a href="javascript:" target="_blank">
+            <img src="/./img/head-img.jpg" alt="">
+        </a>
+    </div>
 
-    <article class="post">
-        
-        <div class="post-content">
-            <div class="post-head home-post-head">
-                <h1 class="post-title">
-                    <a href="/2019/01/27/2018-12-03-arducopter-avoid/">arducopter避障分析</a>
-                </h1>
-                <div class="post-meta">  &bull;
-                    <time class="post-date" datetime="" title="">
-                        2019年01月27日
-                    </time>
-                </div>
+
+
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-03-arducopter-avoid/">arducopter避障分析</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
             </div>
-            <p class="brief">
-                
-                    前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
+        </div>
+        <p class="brief">
+            
+                前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
 内容在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：接着进入调整速度函数：
 
 再...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/arducopter/">arducopter</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
                 
-            </p>
+                    <a class="tag-link" href="/tags/UAV-APM-arducopter-sf40-避障/">UAV APM arducopter sf40 避障</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-03-arducopter-avoid/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2018-12-03-APM-startup-tone/">APM startup tone</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
         </div>
-    </article>
- 
+        <p class="brief">
+            
+                APM飞控板启动音调。
+先上代码#define AP_NOTIFY_TONE_STARTUP 29
+    { &amp;quot;MFT225O3L8GL8GL8GL2B&amp;quot;, false },
+}
+1234567891011121...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/APM/">APM</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/startup-tone-APM/">startup tone APM</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2018-12-03-APM-startup-tone/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/01/27/2019-01-27-Compass-Switch/">Compass-Switch</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                由于飞行器罗盘容易挂掉，故现在开始研究APM 罗盘切换。
+如何做：检测到罗盘里的时间轴不更新，则开始执行切换罗盘，切换罗盘就是切换主罗盘，那么就是切换那个主标志：_primary = 0 (用第一罗盘)/ _primary = 1（用...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/APM-Compass/">APM Compass</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/01/27/2019-01-27-Compass-Switch/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
 
 
 
 
+    <nav class="pagination" role="navigation">
+        <div id="page-nav">
+            <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+        </div>
+    </nav>
 
 
 

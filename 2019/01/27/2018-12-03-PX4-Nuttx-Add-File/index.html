@@ -16,11 +16,12 @@
     <link rel="dns-prefetch" href="http://gkbytes.github.io">
     <!--SEO-->
 
-    <meta name="keywords" content="UAV APM arducopter sf40 避障">
+    <meta name="keywords" content="PX4 Nuttx">
 
 
-    <meta name="description" content="前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
-内容在留待模式（loiter mode）下，找到调用此函数地方就算开启...">
+    <meta name="description" content="简介上一篇介绍的是baro的uORB通信方法，现在同样介绍baro MS5611 加入Nuttx中编译的方法。
+Cmake基础
+首先谈谈何为make熟悉linux系统的朋友对make肯定不陌生，...">
 
 
 
@@ -32,7 +33,7 @@
     <!--Title-->
 
 
-<title>arducopter避障分析 | 笔记</title>
+<title>基于PX4的Nuttx实时操作系统编程 | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -142,16 +143,16 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="arducopter避障分析">
+        <h1 id="基于PX4的Nuttx实时操作系统编程">
             
-	            arducopter避障分析
+	            基于PX4的Nuttx实时操作系统编程
             
         </h1>
         <div class="post-meta">
     
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/arducopter/">arducopter</a>
+            <a class="category-link" href="/categories/PX4/">PX4</a>
         </span>
     
 
@@ -160,7 +161,7 @@
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/UAV-APM-arducopter-sf40-避障/">UAV APM arducopter sf40 避障</a>
+                    <a class="tag-link" href="/tags/PX4-Nuttx/">PX4 Nuttx</a>
                 
             </span>
         </span>
@@ -180,40 +181,40 @@
     </div>
     
     <div class="post-body post-content">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。</p>
-<h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：<br><img src="/2019/01/27/2018-12-03-arducopter-avoid/Loiter_adjust_velocity.png"><br>接着进入调整速度函数：</p>
-<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/adjust_velocity.png"></p>
-<p>再进入真正避障速度调整：</p>
-<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/adjust_velocity_p.png"></p>
-<p>最关键的是：</p>
-<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/1.png"><br><img src="/2019/01/27/2018-12-03-arducopter-avoid/2.png"></p>
-<h2 id="目前存在问题"><a href="#目前存在问题" class="headerlink" title="目前存在问题"></a>目前存在问题</h2><ul>
-<li>前后走动会引起左右避障;</li>
-<li>速度过快时，提前避障幅度太大。（提前避障做的不是很好）</li>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>上一篇介绍的是baro的uORB通信方法，现在同样介绍baro MS5611 加入Nuttx中编译的方法。</p>
+<h2 id="Cmake基础"><a href="#Cmake基础" class="headerlink" title="Cmake基础"></a>Cmake基础</h2><ul>
+<li><p>首先谈谈何为make<br>熟悉linux系统的朋友对make肯定不陌生，它就是用来读取Makefile文件然后执行，把源码编译链接为可执行程序的一个软件。我们只要把待编译的源码文件和这些源码所需要用到的库写到Makefile文件里面执行make命令就能得到可执行或者可烧录的二进制文件。</p>
+</li>
+<li><p>那何为Cmake呢<br>我们可以这样理解，早期人们直接使用gcc命令编译程序，当源码文件多起了之后，直接用gcc命令过长，链接的库过多，这样就太麻烦了。这时候Make就应运而生，解决了人们对于代码文件过多的困扰。但随着项目越来越大，文件越来越多，人们发现make也捉襟见肘，因为编写Makefile文件又会变得异常复杂。这个时候聪明的程序猿就想能不能有个程序可以帮我写Makefile文件呢？这样就引出了Cmake，当然Cmake不是智能的，它不可能自己去辨别那些是代码，那些是文件，需要什么库。这样就引入了另外一套规则，也引入了一个文件CMakeLists.txt，这个文件就是Cmake程序识别的文件，有这个文件，Cmake就能帮助程序猿自动生成Makefile文件。</p>
+</li>
 </ul>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><ul>
-<li>LOIT_SPEED : 最大水平速度，单位为cm/s(i.e. 1250 = 12.5m/s)。【默认：1250】（老版本默认5m/s）</li>
-<li>LOIT_ACC_MAX : 最大加速度，单位为cm/s/s。较高的值会使直升机加速并更快地停止。【500】（值越大，加速和停止性能越好，默认值为最大速度的一半）</li>
-<li>LOIT_ANG_MAX : 以厘米为单位的最大倾斜角（即3000 = 30度）。默认情况下，此值为零，这会导致使用ANGLE_MAX参数的值。【0】</li>
-<li>LOIT_BRK_ACCEL: 制动时的最大加速度（cm/s/s）（即飞行员将杆移动到中心位置）。较高的值将更快地停止车辆。【250】</li>
-<li>LOIT_BRK_DELAY: 一旦飞行员将手杖放在中心位置，制动开始前的延迟时间。【1】</li>
-<li>LOIT_BRK_JERK: 制动时加速度的最大变化，单位为cm/s/s/s。较高的数字将使车辆更快地达到最大制动角度，较低的数字将使制动更平稳【500】</li>
-<li>PSC_POSXY_P : （在上面的屏幕截图的右上方显示为“位置XY（距离速度）”将水平位置误差（即所需位置和实际位置之间的差值）转换为朝向目标位置的所需速度。通常不需要调整它。【0.8】</li>
-<li>PSC_VELXY_P  （显示为“Velocity XY（Vel to Accel）”）将所需速度朝向目标转换为所需的加速度。得到的所需加速度变为倾斜角，然后传递到稳定模式使用的相同角度控制器。通常不需要调整它。【1.6】</li>
+<p>小结：</p>
+<ul>
+<li>make是为了读取makefile(makefile写起来也很麻烦)</li>
+<li>cmake就是帮忙写makefile(cmake只认CMakeLists.txt)</li>
 </ul>
-<h2 id="砝石S20-B900机型首次避障测试结果"><a href="#砝石S20-B900机型首次避障测试结果" class="headerlink" title="砝石S20+B900机型首次避障测试结果"></a>砝石S20+B900机型首次避障测试结果</h2><ul>
-<li>输出数据偶尔消失100ms左右。会导致撞网危险。</li>
-<li>无光照条件下，偶尔会出现噪点，但是很少。</li>
-<li>识别电线杆等细小物体数据密度很小。易撞杆。</li>
-<li>距离问题，距离最多测12m，270度扇区输出好像有点问题。</li>
-</ul>
-<h2 id="（砝石S20-B900机架）2018-12-13联调结果："><a href="#（砝石S20-B900机架）2018-12-13联调结果：" class="headerlink" title="（砝石S20+B900机架）2018.12.13联调结果："></a>（砝石S20+B900机架）2018.12.13联调结果：</h2><ul>
-<li>解决了“输出数据偶尔消失100ms左右。会导致撞网危险。”的问题。</li>
-<li>解决了“距离问题，距离最多测12m，270度扇区输出好像有点问题。”</li>
-<li>已改进，待测“无光照条件下，偶尔会出现噪点，但是很少。”</li>
-<li>对于“识别电线杆等细小物体数据密度很小。易撞杆。”这个问题，目前已能避直径35cm左右的电杆。但是15cm左右的杆会触发避障效果，但是不能完全避障，会有碰撞危险。目的：能避架线铁塔、电杆。</li>
-<li>由于天气原因未测“阳光下噪点检测。”</li>
-</ul>
+<h2 id="添加baro驱动"><a href="#添加baro驱动" class="headerlink" title="添加baro驱动"></a>添加baro驱动</h2><p>首先编辑ms5611驱动，分别为(路径：/Firmware/src/drivers/barometer/ms5611)：</p>
+<ol>
+<li>ms5611_i2c.cpp</li>
+<li>ms5611_spi.cpp</li>
+<li>ms5611.cpp</li>
+<li>ms5611.h</li>
+</ol>
+<p>然后编辑CMakeLists.txt文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">set(srcs</span><br><span class="line">	ms5611_spi.cpp</span><br><span class="line">	ms5611_i2c.cpp</span><br><span class="line">	ms5611.cpp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">px4_add_module(</span><br><span class="line">	MODULE drivers__ms5611</span><br><span class="line">	MAIN ms5611</span><br><span class="line">	STACK_MAIN <span class="number">1200</span></span><br><span class="line">	COMPILE_FLAGS</span><br><span class="line">	SRCS $&#123;srcs&#125;</span><br><span class="line">	DEPENDS</span><br><span class="line">	)</span><br></pre></td></tr></table></figure></p>
+<p> 从字面上可以了解到每个程序在CMake里面都是一个模块，最后总的Cmake文件会去自动将这些模块添加到最后的生成的Makefile文件里面。所以我们要做的就是把我们写的模块的一些属性描写清楚，然后将其注册到nuttx_px4fmu-v2_default.cmake文件当中。</p>
+<ol>
+<li>首先是模块名MODULE：这个名字的命名规则是当前文件夹+__+主函数名。</li>
+<li>然后是MIAN ：</li>
+<li>STACK_MAIN：</li>
+<li>SRCS：所用到的源文件。</li>
+<li>DEPENDS ：依赖。</li>
+</ol>
+<p>“Firmware/cmake/configs/nuttx_px4fmu-v2_default.cmake”<br>最后在cmake文件中添加</p>
+<blockquote>
+<p>   drivers/barometer/ms5611<br>用#把不用的驱动注销掉：</p>
+<p>  #drivers/barometer/bmp280</p>
+</blockquote>
+<p>在Firmware文件夹下面执行make px4fmu-v2_default 进行编译。</p>
 
     </div>
     
@@ -229,15 +230,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/01/27/2018-12-03-PX4-uORB/" class="pre-post btn btn-default" title="以MS5611气压计数据分析PX4 uORB">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">以MS5611气压计数据分析PX4 uORB</span>
-        </a>
     
-    
-        <a href="/2019/01/27/2018-12-03-APM-startup-tone/" class="next-post btn btn-default" title="APM startup tone">
+        <a href="/2019/01/27/2018-12-21-lijie-jupyter-notebook/" class="next-post btn btn-default" title="jupyter notebook">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">APM startup tone</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">jupyter notebook</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
@@ -280,7 +276,7 @@
     <div class="widget">
         <h3 class="title">Table of Contents</h3>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内容"><span class="toc-text">内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目前存在问题"><span class="toc-text">目前存在问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后续"><span class="toc-text">后续</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#砝石S20-B900机型首次避障测试结果"><span class="toc-text">砝石S20+B900机型首次避障测试结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（砝石S20-B900机架）2018-12-13联调结果："><span class="toc-text">（砝石S20+B900机架）2018.12.13联调结果：</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cmake基础"><span class="toc-text">Cmake基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加baro驱动"><span class="toc-text">添加baro驱动</span></a></li></ol>
         
     </div>
 </aside>

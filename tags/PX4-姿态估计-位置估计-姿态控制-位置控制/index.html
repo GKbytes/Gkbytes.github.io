@@ -31,7 +31,7 @@
     <!--Title-->
 
 
-<title>Tag: UAV APM arducopter sf40 避障 | 笔记</title>
+<title>Tag: PX4 姿态估计 位置估计 姿态控制 位置控制 | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -140,7 +140,7 @@
 
                     <h3>
     
-        UAV APM arducopter sf40 避障
+        PX4 姿态估计 位置估计 姿态控制 位置控制
     
     
 </h3>
@@ -150,7 +150,7 @@
         <div class="post-content">
             <div class="post-head home-post-head">
                 <h1 class="post-title">
-                    <a href="/2019/01/27/2018-12-03-arducopter-avoid/">arducopter避障分析</a>
+                    <a href="/2019/01/27/2018-12-04-PX4-估计和控制/">PX4 估计和控制</a>
                 </h1>
                 <div class="post-meta">  &bull;
                     <time class="post-date" datetime="" title="">
@@ -160,10 +160,14 @@
             </div>
             <p class="brief">
                 
-                    前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
-内容在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：接着进入调整速度函数：
+                    
+content{:toc}
 
-再...
+前言目前在学习PX4，目的为做避障，需要用到控制相关知识：
+
+姿态估计 Attitude_estimator_q
+位置估计 position_estimator_inav
+姿态控制 mc_att_con...
                 
             </p>
         </div>

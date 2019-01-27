@@ -16,11 +16,16 @@
     <link rel="dns-prefetch" href="http://gkbytes.github.io">
     <!--SEO-->
 
-    <meta name="keywords" content="UAV APM arducopter sf40 避障">
+    <meta name="keywords" content="PX4 姿态估计 位置估计 姿态控制 位置控制">
 
 
-    <meta name="description" content="前言最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。
-内容在留待模式（loiter mode）下，找到调用此函数地方就算开启...">
+    <meta name="description" content="
+content{:toc}
+
+前言目前在学习PX4，目的为做避障，需要用到控制相关知识：
+
+姿态估计 Attitude_estimator_q
+位置估计 position_estimator_...">
 
 
 
@@ -32,7 +37,7 @@
     <!--Title-->
 
 
-<title>arducopter避障分析 | 笔记</title>
+<title>PX4 估计和控制 | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -142,16 +147,16 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="arducopter避障分析">
+        <h1 id="PX4 估计和控制">
             
-	            arducopter避障分析
+	            PX4 估计和控制
             
         </h1>
         <div class="post-meta">
     
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/arducopter/">arducopter</a>
+            <a class="category-link" href="/categories/PX4姿态、位置估计和控制/">PX4姿态、位置估计和控制</a>
         </span>
     
 
@@ -160,7 +165,7 @@
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/UAV-APM-arducopter-sf40-避障/">UAV APM arducopter sf40 避障</a>
+                    <a class="tag-link" href="/tags/PX4-姿态估计-位置估计-姿态控制-位置控制/">PX4 姿态估计 位置估计 姿态控制 位置控制</a>
                 
             </span>
         </span>
@@ -180,40 +185,99 @@
     </div>
     
     <div class="post-body post-content">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在研究Arducopter的避障功能，发现其避障碍效果做的很差，速度控制时候出了问题，最近也在研究怎么优化此状况。</p>
-<h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>在留待模式（loiter mode）下，找到调用此函数地方就算开启避障的大门：<br><img src="/2019/01/27/2018-12-03-arducopter-avoid/Loiter_adjust_velocity.png"><br>接着进入调整速度函数：</p>
-<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/adjust_velocity.png"></p>
-<p>再进入真正避障速度调整：</p>
-<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/adjust_velocity_p.png"></p>
-<p>最关键的是：</p>
-<p><img src="/2019/01/27/2018-12-03-arducopter-avoid/1.png"><br><img src="/2019/01/27/2018-12-03-arducopter-avoid/2.png"></p>
-<h2 id="目前存在问题"><a href="#目前存在问题" class="headerlink" title="目前存在问题"></a>目前存在问题</h2><ul>
-<li>前后走动会引起左右避障;</li>
-<li>速度过快时，提前避障幅度太大。（提前避障做的不是很好）</li>
+        <ul>
+<li>content<br>{:toc}</li>
 </ul>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><ul>
-<li>LOIT_SPEED : 最大水平速度，单位为cm/s(i.e. 1250 = 12.5m/s)。【默认：1250】（老版本默认5m/s）</li>
-<li>LOIT_ACC_MAX : 最大加速度，单位为cm/s/s。较高的值会使直升机加速并更快地停止。【500】（值越大，加速和停止性能越好，默认值为最大速度的一半）</li>
-<li>LOIT_ANG_MAX : 以厘米为单位的最大倾斜角（即3000 = 30度）。默认情况下，此值为零，这会导致使用ANGLE_MAX参数的值。【0】</li>
-<li>LOIT_BRK_ACCEL: 制动时的最大加速度（cm/s/s）（即飞行员将杆移动到中心位置）。较高的值将更快地停止车辆。【250】</li>
-<li>LOIT_BRK_DELAY: 一旦飞行员将手杖放在中心位置，制动开始前的延迟时间。【1】</li>
-<li>LOIT_BRK_JERK: 制动时加速度的最大变化，单位为cm/s/s/s。较高的数字将使车辆更快地达到最大制动角度，较低的数字将使制动更平稳【500】</li>
-<li>PSC_POSXY_P : （在上面的屏幕截图的右上方显示为“位置XY（距离速度）”将水平位置误差（即所需位置和实际位置之间的差值）转换为朝向目标位置的所需速度。通常不需要调整它。【0.8】</li>
-<li>PSC_VELXY_P  （显示为“Velocity XY（Vel to Accel）”）将所需速度朝向目标转换为所需的加速度。得到的所需加速度变为倾斜角，然后传递到稳定模式使用的相同角度控制器。通常不需要调整它。【1.6】</li>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>目前在学习PX4，目的为做避障，需要用到控制相关知识：</p>
+<ul>
+<li>姿态估计 Attitude_estimator_q</li>
+<li>位置估计 position_estimator_inav</li>
+<li>姿态控制 mc_att_control</li>
+<li>位置控制 mc_pos_control<br>（都在modules文件夹下）</li>
 </ul>
-<h2 id="砝石S20-B900机型首次避障测试结果"><a href="#砝石S20-B900机型首次避障测试结果" class="headerlink" title="砝石S20+B900机型首次避障测试结果"></a>砝石S20+B900机型首次避障测试结果</h2><ul>
-<li>输出数据偶尔消失100ms左右。会导致撞网危险。</li>
-<li>无光照条件下，偶尔会出现噪点，但是很少。</li>
-<li>识别电线杆等细小物体数据密度很小。易撞杆。</li>
-<li>距离问题，距离最多测12m，270度扇区输出好像有点问题。</li>
+<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><p>pollevent_t events;  /<em> The input event flags </em>/</p>
+<p>pollevent_t revents; /<em> The output event flags </em>/</p>
+<h2 id="框架使用说明"><a href="#框架使用说明" class="headerlink" title="框架使用说明"></a>框架使用说明</h2><p><strong>News_scrapy_redis4. <a href="https://github.com/xudailong/News_scrapy_redis.git" target="_blank" rel="noopener">github地址</a></strong></p>
+<ol>
+<li><p><code>News_scrapy_redis</code> 基于<code>scrapy_redis</code>实现数据的增量爬取（含去重），支持分布式，支持异常日志等输出，功能模块化。</p>
+</li>
+<li><p>树结构：</p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">├─.idea</span><br><span class="line">├─Daily_crawler</span><br><span class="line">├─ETL</span><br><span class="line">├─log</span><br><span class="line">├─News_scrapy</span><br><span class="line">│  ├─spiders</span><br><span class="line">│  │  └─__pycache__</span><br><span class="line">│  └─__pycache__</span><br><span class="line">├─News_simhash</span><br><span class="line">└─News_statistics</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>各模块说明：</p>
+<blockquote>
+<p>Daily_crawler：    </p>
+</blockquote>
+<ul>
+<li><code>daily_crawler.cron crontab</code>的定时文件, 定时运行<code>start_crawl.sh</code>脚本</li>
+<li><code>start_crawl.sh</code> 启动爬虫模块，并将每次爬取所花费的时间 写入 log/run_time.txt</li>
+<li><code>push_urls.py</code> 每次在爬虫之前运行，清空调度队列，并将start_url push到调度队列中</li>
+<li><p><code>news_crawl.sh</code> 执行爬虫模块（增量爬取）， 并自动进行相似文档去重，ETL, 存入mongodb</p>
+<blockquote>
+<p>ETL:（暂时用不到）</p>
+</blockquote>
+</li>
+<li><p><code>/Model</code> 存放训练好的词典，语料，TF-IDF，LDA， word2vec模型</p>
+</li>
+<li><code>auto_embedding.py</code> 新闻语料的清洗，以及自动化生成新闻的标题和内容embedding</li>
+<li><code>auto_embedding_simhash.py</code> 增加了自动化相似文档的去重</li>
+<li><code>stop_words</code> 常用的中文停留词</li>
+<li><code>train_step1</code> 训练LDA模型</li>
+<li><p><code>train_step2</code> 训练LDA模型</p>
+<blockquote>
+<p>log:</p>
+</blockquote>
+</li>
+<li><p><code>auto_embedding_simhash.log</code> 执行auto_embedding_simhash.py的日志文件</p>
+</li>
+<li><code>crawler.log</code> 执行scrapy-redis爬虫模块的日志文件</li>
+<li><code>news_count.log</code> 执行news_statistics.py的日志文件</li>
+<li><p><code>run_time.txt</code> 每次执行爬虫脚本的运行时间</p>
+<blockquote>
+<p>News_data:</p>
+</blockquote>
+</li>
+<li><p>每个文件夹是抓每天从各个网站抓取到的新闻</p>
+<blockquote>
+<p>News_scrapy:</p>
+</blockquote>
+</li>
+<li><p>基于scrapy-redis的爬虫模块，在scrapy的基础上修改得到</p>
+</li>
+<li><p>各大网站数据的爬取解析工作主要在该文件中进行</p>
+<blockquote>
+<p>News_simhash（此处只需要进行title的去重）:</p>
+</blockquote>
+</li>
+<li><p>实现相似文档的去重</p>
+</li>
+<li>automatic_simhash.py 自动实现相似文档的去重（仅基于新闻内容）</li>
+<li>content_index.pkl 序列化的新闻内容SimhashIndex类，相当于所有新闻sinhash_value的一张表，并且随着抓取的新闻越来越多，该表会不断增大title_index.pkl 序列化的新闻标题SimhashIndex类， 未使用</li>
+<li><code>generate_simhash_index.py</code> 初始化这张Simhash_index，生成content和title的Simhash_index</li>
+<li><code>near_duplicates.py</code> 对初始化的Simhash_index进行相似新闻内容的去重</li>
+<li><p>test.py 测试content_index.pkl中content_index类新闻的数量</p>
+<blockquote>
+<p>News_statistics:</p>
+</blockquote>
+</li>
+<li><p><code>news_count.json</code> 每天从各个网站抓取的新闻数量</p>
+</li>
+<li><code>news_statistics.py</code> 统计新闻增量的脚本</li>
 </ul>
-<h2 id="（砝石S20-B900机架）2018-12-13联调结果："><a href="#（砝石S20-B900机架）2018-12-13联调结果：" class="headerlink" title="（砝石S20+B900机架）2018.12.13联调结果："></a>（砝石S20+B900机架）2018.12.13联调结果：</h2><ul>
-<li>解决了“输出数据偶尔消失100ms左右。会导致撞网危险。”的问题。</li>
-<li>解决了“距离问题，距离最多测12m，270度扇区输出好像有点问题。”</li>
-<li>已改进，待测“无光照条件下，偶尔会出现噪点，但是很少。”</li>
-<li>对于“识别电线杆等细小物体数据密度很小。易撞杆。”这个问题，目前已能避直径35cm左右的电杆。但是15cm左右的杆会触发避障效果，但是不能完全避障，会有碰撞危险。目的：能避架线铁塔、电杆。</li>
-<li>由于天气原因未测“阳光下噪点检测。”</li>
-</ul>
+</li>
+</ol>
+<h2 id="框架环境"><a href="#框架环境" class="headerlink" title="框架环境"></a>框架环境</h2><ol>
+<li>Redis环境环境</li>
+<li>scrapy框架环境</li>
+<li>python3环境环境</li>
+</ol>
+<h2 id="框架完善"><a href="#框架完善" class="headerlink" title="框架完善"></a>框架完善</h2><ol>
+<li>IP代理池</li>
+<li>cookies池 </li>
+<li>其他</li>
+</ol>
 
     </div>
     
@@ -229,15 +293,15 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/01/27/2018-12-03-PX4-uORB/" class="pre-post btn btn-default" title="以MS5611气压计数据分析PX4 uORB">
+        <a href="/2019/01/27/2018-12-18-Arducopter-Log/" class="pre-post btn btn-default" title="Arducopter Log">
             <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">以MS5611气压计数据分析PX4 uORB</span>
+            <span class="hidden-xs">Arducopter Log</span>
         </a>
     
     
-        <a href="/2019/01/27/2018-12-03-APM-startup-tone/" class="next-post btn btn-default" title="APM startup tone">
+        <a href="/2019/01/27/2018-12-04-PX4-LeddarTech-one/" class="next-post btn btn-default" title="PX4 LeddarTech One">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">APM startup tone</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">PX4 LeddarTech One</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
@@ -280,7 +344,7 @@
     <div class="widget">
         <h3 class="title">Table of Contents</h3>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内容"><span class="toc-text">内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目前存在问题"><span class="toc-text">目前存在问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后续"><span class="toc-text">后续</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#砝石S20-B900机型首次避障测试结果"><span class="toc-text">砝石S20+B900机型首次避障测试结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（砝石S20-B900机架）2018-12-13联调结果："><span class="toc-text">（砝石S20+B900机架）2018.12.13联调结果：</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架使用说明"><span class="toc-text">框架使用说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架环境"><span class="toc-text">框架环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架完善"><span class="toc-text">框架完善</span></a></li></ol>
         
     </div>
 </aside>
