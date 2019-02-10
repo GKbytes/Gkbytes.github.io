@@ -16,12 +16,13 @@
     <link rel="dns-prefetch" href="http://gkbytes.github.io">
     <!--SEO-->
 
-    <meta name="keywords" content="MS5611 PX4 uORB">
+    <meta name="keywords" content="">
 
 
-    <meta name="description" content="概念pixhawk的发布订阅机制是通过“微对象请求代理”（uORB）来实现的。
-自定义主题
-要定义一个自定义主题，发布者需要提供给订阅者一个头文件（参考sensor_baro.h），在这个头文件...">
+    <meta name="description" content="
+结构体作为函数参数(引用传值)
+
+1234567891011121314151617#include &lt;iostream&gt; #include &lt;string&gt; usin...">
 
 
 
@@ -33,7 +34,7 @@
     <!--Title-->
 
 
-<title>以MS5611气压计数据分析PX4 uORB | 笔记</title>
+<title>C++ study notes | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -155,16 +156,16 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="以MS5611气压计数据分析PX4 uORB">
+        <h1 id="C++ study notes">
             
-	            以MS5611气压计数据分析PX4 uORB
+	            C++ study notes
             
         </h1>
         <div class="post-meta">
     
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/笔记/">笔记</a>
+            
         </span>
     
 
@@ -172,8 +173,6 @@
         <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
-                
-                    <a class="tag-link" href="/tags/MS5611-PX4-uORB/">MS5611 PX4 uORB</a>
                 
             </span>
         </span>
@@ -183,7 +182,7 @@
         
         <span class="fa-wrap">
             <i class="fa fa-clock-o"></i>
-            <span class="date-meta">2019/01/27</span>
+            <span class="date-meta">2019/02/10</span>
         </span>
         
     
@@ -193,36 +192,10 @@
     </div>
     
     <div class="post-body post-content">
-        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>pixhawk的发布订阅机制是通过“微对象请求代理”（uORB）来实现的。</p>
-<h2 id="自定义主题"><a href="#自定义主题" class="headerlink" title="自定义主题"></a>自定义主题</h2><ul>
-<li>要定义一个自定义主题，发布者需要提供给订阅者一个头文件（参考sensor_baro.h），在这个头文件中必须有：<br>/Firmware/build/nuttx_px4fmu-v4_default/msg/tmp/headers –&gt; sensor_baro.h</li>
-</ul>
-<ol>
-<li>用主题的名称做作为参数调用ORB_DECLARE(sensor_baro);宏来定义一个实例  </li>
-<li>定义一个结构体，用来描述将要用来发布的数据结构。<br>struct sensor_baro_s {<br> uint64_t timestamp;<br> uint64_t error_count;<br> uint32_t device_id;<br> float pressure;<br> float temperature;<br> uint8_t _padding0[4]; // required for logger<br>}</li>
-<li>除了头文件，发布者必须要具有使用ORB_DEFINE()宏在源码中定义一个实例，当固件被构建时，他将被编译并且链接到固件。<br>在/Firmware/build/nuttx_px4fmu-v4_default/msg/tmp/sources –&gt; sensor_baro.cpp<br> ORB_DEFINE(sensor_baro, struct sensor_baro_s, 28, __orb_sensor_baro_fields);</li>
+        <ol>
+<li>结构体作为函数参数(引用传值)</li>
 </ol>
-<ul>
-<li><p>接着就是广告了：<br>在 /Firmware/src/drivers/barometer/ms5611 的 ms5611.cpp 的 int MS5611::init()中<br>_baro_topic = orb_advertise_multi(ORB_ID(sensor_baro), &amp;brp, &amp;_orb_class_instance, _interface-&gt;external() ? ORB_PRIO_HIGH : ORB_PRIO_DEFAULT);</p>
-</li>
-<li><p>然后就是发布新主题：<br>/Firmware/src/drivers/barometer/ms5611 的 ms5611.cpp 的 int MS5611::collect()中<br>orb_publish(ORB_ID(sensor_baro), _baro_topic, &amp;report);</p>
-</li>
-<li><p>接着就是订阅：<br>/Firmware/src/modules/events/temperature_calibration 的baro.cpp 的构造函数中<br>_sensor_subs[i] = orb_subscribe_multi(ORB_ID(sensor_baro), i);</p>
-</li>
-<li><p>最后就是把数据拷贝过来：<br>/Firmware/src/modules/events/temperature_calibration 的baro.cpp 的 update_sensor_instance();</p>
-</li>
-</ul>
-<ol>
-<li>orb_copy(ORB_ID(sensor_baro), sensor_sub, &amp;baro_data);</li>
-<li>通过sensor_baro_s baro_data; 把publish过来的数据保存在结构体 baro_data 中。</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>定义主题时候，若是原PX4中没有，则自己定义一个.h 和一个.cpp文件，若是有则直接模仿进行orb_subscribe_multi/orb_copy。注意定义主题时候的分别在.h和.cpp中声明和定义主题；</li>
-<li>在传感器的.cpp的初始化中进行广告，并且在函数中将数据收集到结构体中，再publish出去；</li>
-<li>在需要调用的构造函数中调用一次订阅函数；</li>
-<li>再在需要用到的地方拷贝出来。</li>
-</ol>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt; </span><br><span class="line">#include &lt;string&gt; </span><br><span class="line">using namespace std; </span><br><span class="line"></span><br><span class="line">struct Student &#123; </span><br><span class="line">int id;</span><br><span class="line">string name; </span><br><span class="line">float score[<span class="number">2</span>];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//引用传递不会进行内存重新分配，因此和指针传参类似，效率很高 </span></span><br><span class="line"><span class="keyword">void</span> OutCome(Student &amp;s) <span class="comment">//引用传参 </span></span><br><span class="line">&#123;cout&lt;&lt;s.id&lt;&lt;<span class="string">','</span>&lt;&lt;s.name&lt;&lt;<span class="string">','</span>&lt;&lt;s.score[<span class="number">0</span>]&lt;&lt;<span class="string">','</span>&lt;&lt;s.score[<span class="number">1</span>]&lt;&lt;endl; &#125; </span><br><span class="line"></span><br><span class="line">int main() &#123; </span><br><span class="line">Student stu=&#123;<span class="number">2013666</span>,<span class="string">"Tom"</span>,&#123;<span class="number">88</span>,<span class="number">99</span>&#125;&#125;;</span><br><span class="line">OutCome(stu); <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
     
     <div class="post-footer">
@@ -237,15 +210,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/01/27/2018-12-03-PX4-Nuttx-Add-File/" class="pre-post btn btn-default" title="基于PX4的Nuttx实时操作系统编程">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">基于PX4的Nuttx实时操作系统编程</span>
-        </a>
     
-    
-        <a href="/2019/01/27/2018-12-04-PX4-LeddarTech-one/" class="next-post btn btn-default" title="PX4 LeddarTech One">
+        <a href="/2019/02/10/Total-plan-of-2019/" class="next-post btn btn-default" title="Total plan of 2019">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">PX4 LeddarTech One</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">Total plan of 2019</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
@@ -288,7 +256,7 @@
     <div class="widget">
         <h3 class="title">Table of Contents</h3>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义主题"><span class="toc-text">自定义主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+            <p>暂无目录</p>
         
     </div>
 </aside>
