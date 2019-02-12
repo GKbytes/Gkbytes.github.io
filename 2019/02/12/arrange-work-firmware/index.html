@@ -19,7 +19,14 @@
     <meta name="keywords" content="">
 
 
-    <meta name="description" content="">
+    <meta name="description" content="##B900固件、参数、问题说明
+
+FS-S20-B900  （有参数）
+
+分支：
+SYSID_SW_MREV (此值增加，eeprom 需要修改)：12
+主要模式： 定高、GPS、LOIT
+已...">
 
 
 
@@ -189,7 +196,67 @@
     </div>
     
     <div class="post-body post-content">
-        
+        <p>##B900固件、参数、问题说明</p>
+<ul>
+<li><p>FS-S20-B900  （有参数）</p>
+<blockquote>
+<p>分支：<img src="/2019/02/12/arrange-work-firmware/1549937037577.png" alt="1549937037577"></p>
+<p>SYSID_SW_MREV (此值增加，eeprom 需要修改)：12</p>
+<p>主要模式： 定高、GPS、LOIT</p>
+<p>已加入内容：起飞会翻、起飞会飘、失效保护后显示异常的问题。去掉定高避障碍。（备注：1. 起飞自旋可以通过把上升速度设为4m/s解决或者修改前馈代码。2.一体控罗盘校准进度条问题已转给地面站，每一个都要开启双罗盘。）</p>
+<p>需修改及后续测试：1. Log记录去掉并测试。2. commit整理好。3. Chip ID的加入会导致飞LOIT模式出现”很糯”情况。</p>
+</blockquote>
+</li>
+<li><p>V1-SF40-B900（有参数，待测）</p>
+<blockquote>
+<p>分支：<img src="/2019/02/12/arrange-work-firmware/1549938971903.png" alt="1549938971903"></p>
+<p>SYSID_SW_MREV：11/12</p>
+<p>主要模式：定高、GPS、LOIT</p>
+<p>已加入内容：去掉定高避障。</p>
+<p>需修改及后续测试：1. Log记录去掉并测试。2. commit整理好。3. Chip ID的加入会导致飞LOIT模式出现”很糯”情况。4. 加入起飞会翻、起飞会飘、失效保护后显示异常的问题。5. 去掉罗盘校准显示的解决方法。6. 重新写滤波算法，简化代码。</p>
+</blockquote>
+</li>
+<li><p>V0.1-SF40-B900（有参数）</p>
+<blockquote>
+<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
+<p>SYSID_SW_MREV：27</p>
+<p>主要模式：定高、GPS、LOIT</p>
+<p>已加入内容：起飞会翻、起飞会飘、失效保护后显示异常的问题。去掉定高避障碍。</p>
+<p>需修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
+</blockquote>
+</li>
+</ul>
+<p>##1550固件、参数、问题说明</p>
+<ul>
+<li><p>好赢FOC电调(有参数)</p>
+<blockquote>
+<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
+<p>SYSID_SW_MREV：27</p>
+<p>主要模式：定高、定高、GPS</p>
+<p>已加入内容： 起飞会翻、起飞会飘、失效保护后显示异常、去掉定高避障。</p>
+<p>需要修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
+</blockquote>
+</li>
+<li><p>FYLJ 方波电调（有参数）</p>
+<blockquote>
+<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
+<p>SYSID_SW_MREV：27</p>
+<p>主要模式：定高、定高、GPS</p>
+<p>已加入内容： 起飞会翻、起飞会飘、失效保护后显示异常、去掉定高避障。</p>
+<p>需要修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
+</blockquote>
+</li>
+<li><p>大疆动力（有参数）</p>
+<blockquote>
+<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
+<p>SYSID_SW_MREV：27</p>
+<p>主要模式：定高、定高、GPS</p>
+<p>已加入内容： 起飞会翻、起飞会飘、失效保护后显示异常、去掉定高避障。</p>
+<p>需要修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
+</blockquote>
+</li>
+</ul>
+
     </div>
     
     <div class="post-footer">
