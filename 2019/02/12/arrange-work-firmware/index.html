@@ -19,10 +19,7 @@
     <meta name="keywords" content="">
 
 
-    <meta name="description" content="
-结构体作为函数参数(引用传值)
-
-1234567891011121314151617#include &lt;iostream&gt; #include &lt;string&gt; usin...">
+    <meta name="description" content="">
 
 
 
@@ -34,7 +31,7 @@
     <!--Title-->
 
 
-<title>C++ study notes | 笔记</title>
+<title>arrange work firmware | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -156,9 +153,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="C++ study notes">
+        <h1 id="arrange work firmware">
             
-	            C++ study notes
+	            arrange work firmware
             
         </h1>
         <div class="post-meta">
@@ -182,7 +179,7 @@
         
         <span class="fa-wrap">
             <i class="fa fa-clock-o"></i>
-            <span class="date-meta">2019/02/10</span>
+            <span class="date-meta">2019/02/12</span>
         </span>
         
     
@@ -192,10 +189,7 @@
     </div>
     
     <div class="post-body post-content">
-        <ol>
-<li>结构体作为函数参数(引用传值)</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt; </span><br><span class="line">#include &lt;string&gt; </span><br><span class="line">using namespace std; </span><br><span class="line"></span><br><span class="line">struct Student &#123; </span><br><span class="line">int id;</span><br><span class="line">string name; </span><br><span class="line">float score[<span class="number">2</span>];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//引用传递不会进行内存重新分配，因此和指针传参类似，效率很高 </span></span><br><span class="line"><span class="keyword">void</span> OutCome(Student &amp;s) <span class="comment">//引用传参 </span></span><br><span class="line">&#123;cout&lt;&lt;s.id&lt;&lt;<span class="string">','</span>&lt;&lt;s.name&lt;&lt;<span class="string">','</span>&lt;&lt;s.score[<span class="number">0</span>]&lt;&lt;<span class="string">','</span>&lt;&lt;s.score[<span class="number">1</span>]&lt;&lt;endl; &#125; </span><br><span class="line"></span><br><span class="line">int main() &#123; </span><br><span class="line">Student stu=&#123;<span class="number">2013666</span>,<span class="string">"Tom"</span>,&#123;<span class="number">88</span>,<span class="number">99</span>&#125;&#125;;</span><br><span class="line">OutCome(stu); <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
     </div>
     
     <div class="post-footer">
@@ -210,15 +204,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/02/12/arrange-work-firmware/" class="pre-post btn btn-default" title="arrange work firmware">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">arrange work firmware</span>
-        </a>
     
-    
-        <a href="/2019/02/10/Total-plan-of-2019/" class="next-post btn btn-default" title="Total plan of 2019">
+        <a href="/2019/02/10/C-study-notes/" class="next-post btn btn-default" title="C++ study notes">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">Total plan of 2019</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">C++ study notes</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
