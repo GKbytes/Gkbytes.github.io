@@ -19,14 +19,11 @@
     <meta name="keywords" content="">
 
 
-    <meta name="description" content="##B900固件、参数、问题说明
+    <meta name="description" content="2019\02\12 
 
-FS-S20-B900  （有参数）
+切换分支后，./waf 编译出来报错–上一个分支的头文件在这边没有，就报编译错误。
 
-分支：
-SYSID_SW_MREV (此值增加，eeprom 需要修改)：12
-主要模式： 定高、GPS、LOIT
-已...">
+解决方法：配置（configure）： 配置工程，找到依赖项的位置编译（build...">
 
 
 
@@ -38,7 +35,7 @@ SYSID_SW_MREV (此值增加，eeprom 需要修改)：12
     <!--Title-->
 
 
-<title>arrange work firmware | 笔记</title>
+<title>遇到的坑 | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -160,9 +157,9 @@ SYSID_SW_MREV (此值增加，eeprom 需要修改)：12
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="arrange work firmware">
+        <h1 id="遇到的坑">
             
-	            arrange work firmware
+	            遇到的坑
             
         </h1>
         <div class="post-meta">
@@ -196,66 +193,24 @@ SYSID_SW_MREV (此值增加，eeprom 需要修改)：12
     </div>
     
     <div class="post-body post-content">
-        <p>##B900固件、参数、问题说明</p>
-<ul>
-<li><p>FS-S20-B900  （有参数）</p>
+        <p>2019\02\12 </p>
+<ol>
+<li><p>切换分支后，./waf 编译出来报错–上一个分支的头文件在这边没有，就报编译错误。</p>
 <blockquote>
-<p>分支：<img src="/2019/02/12/arrange-work-firmware/1549937037577.png" alt="1549937037577"></p>
-<p>SYSID_SW_MREV (此值增加，eeprom 需要修改)：12</p>
-<p>主要模式： 定高、GPS、LOIT</p>
-<p>已加入内容：起飞会翻、起飞会飘、失效保护后显示异常的问题。去掉定高避障碍。（备注：1. 起飞自旋可以通过把上升速度设为4m/s解决或者修改前馈代码。2.一体控罗盘校准进度条问题已转给地面站，每一个都要开启双罗盘。）</p>
-<p>需修改及后续测试：1. Log记录去掉并测试。2. commit整理好。3. Chip ID的加入会导致飞LOIT模式出现”很糯”情况。</p>
+<p>解决方法：<br>配置（configure）： 配置工程，找到依赖项的位置<br>编译（build）： 将源文件转换为生成文件<br>清理（clean）： 删除生成文件<br>用 ./waf clean 删除生成文件即可。</p>
 </blockquote>
 </li>
-<li><p>V1-SF40-B900（有参数，待测）</p>
+<li><p>gitlab.mmc.com 不能访问但是192.168.4.85能访问。</p>
 <blockquote>
-<p>分支：<img src="/2019/02/12/arrange-work-firmware/1549938971903.png" alt="1549938971903"></p>
-<p>SYSID_SW_MREV：11/12</p>
-<p>主要模式：定高、GPS、LOIT</p>
-<p>已加入内容：去掉定高避障。</p>
-<p>需修改及后续测试：1. Log记录去掉并测试。2. commit整理好。3. Chip ID的加入会导致飞LOIT模式出现”很糯”情况。4. 加入起飞会翻、起飞会飘、失效保护后显示异常的问题。5. 去掉罗盘校准显示的解决方法。6. 重新写滤波算法，简化代码。</p>
+<p>解决方法：<br>hosts 里面的映射没通，加了几个回车，重启电脑即可。</p>
 </blockquote>
 </li>
-<li><p>V0.1-SF40-B900（有参数）</p>
+<li><p>源文件更新子目录时候有部分子目录由于翻墙软件导致端口不能访问。</p>
 <blockquote>
-<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
-<p>SYSID_SW_MREV：27</p>
-<p>主要模式：定高、GPS、LOIT</p>
-<p>已加入内容：起飞会翻、起飞会飘、失效保护后显示异常的问题。去掉定高避障碍。</p>
-<p>需修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
+<p>解决方法：<br>关掉网络设置中的翻墙代理，重启即可。</p>
 </blockquote>
 </li>
-</ul>
-<p>##1550固件、参数、问题说明</p>
-<ul>
-<li><p>好赢FOC电调(有参数)</p>
-<blockquote>
-<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
-<p>SYSID_SW_MREV：27</p>
-<p>主要模式：定高、定高、GPS</p>
-<p>已加入内容： 起飞会翻、起飞会飘、失效保护后显示异常、去掉定高避障。</p>
-<p>需要修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
-</blockquote>
-</li>
-<li><p>FYLJ 方波电调（有参数）</p>
-<blockquote>
-<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
-<p>SYSID_SW_MREV：27</p>
-<p>主要模式：定高、定高、GPS</p>
-<p>已加入内容： 起飞会翻、起飞会飘、失效保护后显示异常、去掉定高避障。</p>
-<p>需要修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
-</blockquote>
-</li>
-<li><p>大疆动力（有参数）</p>
-<blockquote>
-<p>分支： <img src="/2019/02/12/arrange-work-firmware/1549939350255.png" alt="1549939350255"></p>
-<p>SYSID_SW_MREV：27</p>
-<p>主要模式：定高、定高、GPS</p>
-<p>已加入内容： 起飞会翻、起飞会飘、失效保护后显示异常、去掉定高避障。</p>
-<p>需要修改及后续测试：1. 去掉罗盘校准显示的解决方法。</p>
-</blockquote>
-</li>
-</ul>
+</ol>
 
     </div>
     
@@ -271,15 +226,10 @@ SYSID_SW_MREV (此值增加，eeprom 需要修改)：12
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/02/12/遇到的坑/" class="pre-post btn btn-default" title="遇到的坑">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">遇到的坑</span>
-        </a>
     
-    
-        <a href="/2019/02/10/C-study-notes/" class="next-post btn btn-default" title="C++ study notes">
+        <a href="/2019/02/12/arrange-work-firmware/" class="next-post btn btn-default" title="arrange work firmware">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">C++ study notes</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">arrange work firmware</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
