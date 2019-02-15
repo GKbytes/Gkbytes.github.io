@@ -209,8 +209,18 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> fun(int &amp;x)&#123;</span><br><span class="line">x += <span class="number">5</span>; <span class="comment">//修改的是x引用的对象值 &amp;x = y;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main(<span class="keyword">void</span>)&#123;</span><br><span class="line">int y = <span class="number">0</span>;</span><br><span class="line">fun(y);</span><br><span class="line">cout&lt;&lt;&lt;&lt;\"y = \"&lt;&lt;y&lt;&lt;endl; //y = 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>函数前面注释</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 简单概述函数功能</span></span><br><span class="line"><span class="comment"> * @param 输入参数（None表示无输入参数）</span></span><br><span class="line"><span class="comment"> （* @param 当前中转的参数）</span></span><br><span class="line"><span class="comment"> * @retval None(表示无返回值)</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 简单概述函数功能</span></span><br><span class="line"><span class="comment"> * @param 输入参数（None表示无输入参数）</span></span><br><span class="line"><span class="comment"> （* @param 当前中转的参数）</span></span><br><span class="line"><span class="comment"> * @retval None(表示无返回值)</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+<ol start="3">
+<li><p>消除C语言的通过声明带头文件传值的方法。</p>
+<blockquote>
+<p>梳理代码：首先在 GCS_Common.cpp 中声明指针 <code>AP_Proximity *proximity = AP_Proximity::get_singleton();</code> 从AP_    Proximity中 <code>AP_Proximity_Backend *drivers[PROXIMITY_MAX_INSTANCES];</code> <code>drivers[primary_instance]-&gt;distance_min();</code>  通过AP_Proximity_Backend <code>virtual float distance_min() const = 0;</code>传递数据。<br>虚函数的用法：1. 在基类用virtual声明成员函数为虚函数。这样就可以在派生类中重新定义此函数，为它赋予新的功能，并能方便被调用。2. 在派生类中重新定义此函数，要求函数名，函数类型，函数参数个数和类型全部与基类的虚函数相同，并根据派生类的需要重新定义函数体。</p>
+</blockquote>
+</li>
+<li><p>由于构造函数的调用问题，默认为无参数构造函数，但是此时已经是有参构造函数，所以先要调用构造函数才能用。</p>
+</li>
+</ol>
 
     </div>
     

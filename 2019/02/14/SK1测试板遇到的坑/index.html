@@ -19,11 +19,7 @@
     <meta name="keywords" content="">
 
 
-    <meta name="description" content="2019\02\12 
-
-切换分支后，./waf 编译出来报错–上一个分支的头文件在这边没有，就报编译错误。
-
-解决方法：配置（configure）： 配置工程，找到依赖项的位置编译（build...">
+    <meta name="description" content="">
 
 
 
@@ -35,7 +31,7 @@
     <!--Title-->
 
 
-<title>遇到的坑 | 笔记</title>
+<title>SK1测试板遇到的坑 | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -157,9 +153,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="遇到的坑">
+        <h1 id="SK1测试板遇到的坑">
             
-	            遇到的坑
+	            SK1测试板遇到的坑
             
         </h1>
         <div class="post-meta">
@@ -183,7 +179,7 @@
         
         <span class="fa-wrap">
             <i class="fa fa-clock-o"></i>
-            <span class="date-meta">2019/02/12</span>
+            <span class="date-meta">2019/02/14</span>
         </span>
         
     
@@ -193,35 +189,7 @@
     </div>
     
     <div class="post-body post-content">
-        <p>2019\02\12 </p>
-<ol>
-<li><p>切换分支后，./waf 编译出来报错–上一个分支的头文件在这边没有，就报编译错误。</p>
-<blockquote>
-<p>解决方法：<br>配置（configure）： 配置工程，找到依赖项的位置<br>编译（build）： 将源文件转换为生成文件<br>清理（clean）： 删除生成文件<br>用 ./waf clean 删除生成文件即可。</p>
-</blockquote>
-</li>
-<li><p>gitlab.mmc.com 不能访问但是192.168.4.85能访问。</p>
-<blockquote>
-<p>解决方法：<br>hosts 里面的映射没通，加了几个回车，重启电脑即可。</p>
-</blockquote>
-</li>
-<li><p>源文件更新子目录时候有部分子目录由于翻墙软件导致端口不能访问。</p>
-<blockquote>
-<p>解决方法：<br>关掉网络设置中的翻墙代理，重启即可。</p>
-</blockquote>
-</li>
-<li><p>无论怎么配平 PWM输出曲线还是不行，最后导致有个水平速度时候下降则航向锁不住。</p>
-<blockquote>
-<p>解决方法:<br>机臂能转动或是松动情况直接导致PWM输出曲线<br>把机肚子上的6个卡扣全部换掉即可。<br>2019年2月14日把悬停油门设为0.4即可解决后拉下降时候油门触底导致的航向控不住的问题。</p>
-</blockquote>
-</li>
-<li><p>C++ 报错 invalid types ‘float [7][float]’ for array subscript<br>  FilterSamples[currentFilterSampleIndex] = newdistanceReading;</p>
-<blockquote>
-<p>解决方法：<br>数组中的变量不能为float型，应该为int型。</p>
-</blockquote>
-</li>
-</ol>
-
+        
     </div>
     
     <div class="post-footer">
@@ -236,15 +204,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/02/14/SK1测试板遇到的坑/" class="pre-post btn btn-default" title="SK1测试板遇到的坑">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">SK1测试板遇到的坑</span>
-        </a>
     
-    
-        <a href="/2019/02/12/arrange-work-firmware/" class="next-post btn btn-default" title="arrange work firmware">
+        <a href="/2019/02/12/遇到的坑/" class="next-post btn btn-default" title="遇到的坑">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">arrange work firmware</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">遇到的坑</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
