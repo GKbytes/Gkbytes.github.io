@@ -19,7 +19,11 @@
     <meta name="keywords" content="">
 
 
-    <meta name="description" content="">
+    <meta name="description" content="
+2019年2月16日跟着以下链接学习Chibios，并且跟着最新APM代码做好笔记
+
+
+https://blog.csdn.net/lixiaoweimashixiao/article/det...">
 
 
 
@@ -31,7 +35,7 @@
     <!--Title-->
 
 
-<title>SK1测试板遇到的坑 | 笔记</title>
+<title>Ardupilot chibios study notes | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -153,9 +157,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="SK1测试板遇到的坑">
+        <h1 id="Ardupilot chibios study notes">
             
-	            SK1测试板遇到的坑
+	            Ardupilot chibios study notes
             
         </h1>
         <div class="post-meta">
@@ -179,7 +183,7 @@
         
         <span class="fa-wrap">
             <i class="fa fa-clock-o"></i>
-            <span class="date-meta">2019/02/14</span>
+            <span class="date-meta">2019/02/16</span>
         </span>
         
     
@@ -189,7 +193,38 @@
     </div>
     
     <div class="post-body post-content">
-        
+        <ul>
+<li><p>2019年2月16日跟着以下链接学习Chibios，并且跟着最新APM代码做好笔记</p>
+<blockquote>
+<ol>
+<li><a href="https://blog.csdn.net/lixiaoweimashixiao/article/details/83020681" target="_blank" rel="noopener">https://blog.csdn.net/lixiaoweimashixiao/article/details/83020681</a></li>
+<li><a href="https://blog.csdn.net/lixiaoweimashixiao/article/details/83502268" target="_blank" rel="noopener">https://blog.csdn.net/lixiaoweimashixiao/article/details/83502268</a></li>
+<li><a href="https://blog.csdn.net/lixiaoweimashixiao/article/details/83749921" target="_blank" rel="noopener">https://blog.csdn.net/lixiaoweimashixiao/article/details/83749921</a></li>
+</ol>
+</blockquote>
+</li>
+<li><p>Ardupilot chibios主函数学习</p>
+</li>
+</ul>
+<blockquote>
+<p>主回调函数入口:‘AP_HAL_MAIN_CALLBACKS(&amp;copter);’ </p>
+</blockquote>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#define AP_HAL_MAIN_CALLBACKS(CALLBACKS) extern "C" &#123; \</span><br><span class="line">	int AP_MAIN(int argc, char* <span class="keyword">const</span> argv[]); \</span><br><span class="line">	int AP_MAIN(int argc, char* <span class="keyword">const</span> argv[]) &#123; \</span><br><span class="line">	hal.run(argc, argv, CALLBACKS); \     <span class="comment">//此函数为:chibios对应的hal</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; \</span><br><span class="line">	&#125; \</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">void</span> HAL_ChibiOS::run(int argc, char * <span class="keyword">const</span> argv[], Callbacks* callbacks) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//ChibiOS HAL初始化，这也初始化配置的设备驱动程序。并执行特定的板层初始化：内核初始化，main()函数变成一个线程，RTOS是运行的。</span></span><br><span class="line"></span><br><span class="line">#ifdef HAL_USB_PRODUCT_ID</span><br><span class="line">  setup_usb_strings();		<span class="comment">//初始化usb</span></span><br><span class="line">#endif</span><br><span class="line">    </span><br><span class="line">#ifdef HAL_STDOUT_SERIAL</span><br><span class="line">    <span class="comment">//STDOUT Initialistion</span></span><br><span class="line">    SerialConfig stdoutcfg =</span><br><span class="line">    &#123;</span><br><span class="line">      HAL_STDOUT_BAUDRATE,</span><br><span class="line">      <span class="number">0</span>,</span><br><span class="line">      USART_CR2_STOP1_BITS,</span><br><span class="line">      <span class="number">0</span></span><br><span class="line">    &#125;;</span><br><span class="line">    sdStart((SerialDriver*)&amp;HAL_STDOUT_SERIAL, &amp;stdoutcfg);</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">    assert(callbacks);</span><br><span class="line">    g_callbacks = callbacks;</span><br><span class="line">	<span class="comment">//主线程创建</span></span><br><span class="line">    <span class="keyword">void</span> *main_thread_wa = hal.util-&gt;malloc_type(THD_WORKING_AREA_SIZE(APM_MAIN_THREAD_STACK_SIZE), <span class="attr">AP_HAL</span>::Util::MEM_FAST);</span><br><span class="line">    chThdCreateStatic(main_thread_wa,</span><br><span class="line">                      APM_MAIN_THREAD_STACK_SIZE,</span><br><span class="line">                      APM_MAIN_PRIORITY,     <span class="comment">/* Initial priority.    */</span></span><br><span class="line">                      main_loop,             <span class="comment">/* Thread function.     */</span></span><br><span class="line">                      nullptr);              <span class="comment">/* Thread parameter.    */</span></span><br><span class="line">    chThdExit(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> AP_HAL::HAL&amp; AP_HAL::get_HAL() &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> HAL_ChibiOS hal_chibios;</span><br><span class="line">    <span class="keyword">return</span> hal_chibios;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意’AP_HAL_MAIN();’ 此函数已经不再使用。</p>
+</blockquote>
+<ul>
+<li>Ardupilot chibios编译，启动，main函数学习<blockquote>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>Ardupilot chibios IO固件,IO与FMU通信,固件下载<blockquote>
+</blockquote>
+</li>
+</ul>
+
     </div>
     
     <div class="post-footer">
@@ -204,15 +239,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/02/16/Ardupilot-chibios-study-notes/" class="pre-post btn btn-default" title="Ardupilot chibios study notes">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">Ardupilot chibios study notes</span>
-        </a>
     
-    
-        <a href="/2019/02/12/遇到的坑/" class="next-post btn btn-default" title="遇到的坑">
+        <a href="/2019/02/14/SK1测试板遇到的坑/" class="next-post btn btn-default" title="SK1测试板遇到的坑">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">遇到的坑</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">SK1测试板遇到的坑</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
