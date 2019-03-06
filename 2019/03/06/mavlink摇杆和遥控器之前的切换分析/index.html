@@ -19,11 +19,7 @@
     <meta name="keywords" content="">
 
 
-    <meta name="description" content="2019\02\12 
-
-切换分支后，./waf 编译出来报错–上一个分支的头文件在这边没有，就报编译错误。
-
-解决方法：配置（configure）： 配置工程，找到依赖项的位置编译（build...">
+    <meta name="description" content="###mavlink摇杆现在输出不是很稳定，也必须用futaba遥控器进行切换紧急救援。方案一： 目前我们通道设置为：CH7_OPT = 4 为返航模式。 CH8_OPT = 17 为自动调参。...">
 
 
 
@@ -35,7 +31,7 @@
     <!--Title-->
 
 
-<title>遇到的坑 | 笔记</title>
+<title>mavlink摇杆和遥控器之前的切换分析 | 笔记</title>
 
 
     <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
@@ -157,9 +153,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="遇到的坑">
+        <h1 id="mavlink摇杆和遥控器之前的切换分析">
             
-	            遇到的坑
+	            mavlink摇杆和遥控器之前的切换分析
             
         </h1>
         <div class="post-meta">
@@ -183,7 +179,7 @@
         
         <span class="fa-wrap">
             <i class="fa fa-clock-o"></i>
-            <span class="date-meta">2019/02/12</span>
+            <span class="date-meta">2019/03/06</span>
         </span>
         
     
@@ -193,43 +189,37 @@
     </div>
     
     <div class="post-body post-content">
-        <p>2019\02\12 </p>
+        <p>###mavlink摇杆现在输出不是很稳定，也必须用futaba遥控器进行切换紧急救援。<br>方案一： 目前我们通道设置为：CH7_OPT = 4 为返航模式。 CH8_OPT = 17 为自动调参。 CH9_OPT=18 为降落模式。</p>
+<blockquote>
+<p>AUXSW_RC_OVERRIDE_ENABLE 此部分高电平为可以通过摇杆控制，低电平就关闭。</p>
+<ul>
+<li>看代码：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @Param: CH8_OPT</span></span><br><span class="line"><span class="comment">// @DisplayName: Channel 8 option</span></span><br><span class="line"><span class="comment">// @Description: Select which function is performed when CH8 is above 1800 pwm</span></span><br><span class="line"><span class="comment">// @Values: 0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 13:Super Simple Mode, 14:Acro Trainer, 15:Sprayer, 16:Auto, 17:AutoTune, 18:Land, 19:Gripper, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw, 38:ADSB-Avoidance, 39:PrecLoiter, 40:Object Avoidance, 41:ArmDisarm, 42:SmartRTL, 43:InvertedFlight, 44:Winch Enable, 45:WinchControl, 46:RC Override</span></span><br><span class="line"><span class="comment">// @User: Standard</span></span><br><span class="line">GSCALAR(ch8_option, <span class="string">"CH8_OPT"</span>,AUXSW_AUTO),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> AUXSW_RC_OVERRIDE_ENABLE:</span><br><span class="line">        <span class="comment">// Allow or disallow RC_Override</span></span><br><span class="line">        <span class="keyword">switch</span> (ch_flag) &#123;</span><br><span class="line">            <span class="keyword">case</span> AUX_SWITCH_HIGH: &#123;</span><br><span class="line">                ap.rc_override_enable = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> AUX_SWITCH_LOW: &#123;</span><br><span class="line">                ap.rc_override_enable = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>目前找到了，通过覆写的指令，接着看遥控器那边的收发处理。为什么接入覆写后，遥控器就不会输入。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">void</span> Copter::rc_loop() &#123; <span class="comment">//读取遥控器的通道数据和三段开关的位置信息-------------- Read radio and 3-position switch on radio </span></span><br><span class="line">read_radio(); 			</span><br><span class="line">read_control_switch(); <span class="comment">//读取三段开关数据 &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// rc_override_active  : 1; // true if rc control are overwritten by ground station</span></span><br><span class="line"><span class="comment">// rc_receiver_present     : 1; // 10      // true if we have an rc receiver present (i.e. if we've ever received an update</span></span><br><span class="line"><span class="comment">// flag we must have an rc receiver attached</span></span><br><span class="line"><span class="keyword">if</span> (!failsafe.rc_override_active) &#123;</span><br><span class="line">    ap.rc_receiver_present = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>什么情况下rc_override_active 为false？</p>
 <ol>
-<li><p>切换分支后，./waf 编译出来报错–上一个分支的头文件在这边没有，就报编译错误。</p>
-<blockquote>
-<p>解决方法：<br>配置（configure）： 配置工程，找到依赖项的位置<br>编译（build）： 将源文件转换为生成文件<br>清理（clean）： 删除生成文件<br>用 ./waf clean 删除生成文件即可。</p>
-</blockquote>
-</li>
-<li><p>gitlab.mmc.com 不能访问但是192.168.4.85能访问。</p>
-<blockquote>
-<p>解决方法：<br>hosts 里面的映射没通，加了几个回车，重启电脑即可。</p>
-</blockquote>
-</li>
-<li><p>源文件更新子目录时候有部分子目录由于翻墙软件导致端口不能访问。</p>
-<blockquote>
-<p>解决方法：<br>关掉网络设置中的翻墙代理，重启即可。</p>
-</blockquote>
-</li>
-<li><p>无论怎么配平 PWM输出曲线还是不行，最后导致有个水平速度时候下降则航向锁不住。</p>
-<blockquote>
-<p>解决方法:<br>机臂能转动或是松动情况直接导致PWM输出曲线<br>把机肚子上的6个卡扣全部换掉即可。<br>2019年2月14日把悬停油门设为0.4即可解决后拉下降时候油门触底导致的航向控不住的问题。</p>
-</blockquote>
-</li>
-<li><p>C++ 报错 invalid types ‘float [7][float]’ for array subscript<br>  FilterSamples[currentFilterSampleIndex] = newdistanceReading;</p>
-<blockquote>
-<p>解决方法：<br>数组中的变量不能为float型，应该为int型。</p>
-</blockquote>
-</li>
+<li>failsafe_gcs_check 地面站失效保护时</li>
+<li>rc_override_enable 通过辅助通道改为低电平时</li>
 </ol>
-<ol start="6">
-<li>罗盘2 噪点过大导致校准从第二步直接跳为第一步，明天注意查找<code>_fit_step</code>的含义。打出曲线看看。</li>
-</ol>
-<ol start="7">
-<li>自己拉APM仓时遇到的坑。<blockquote>
+</blockquote>
+<ul>
+<li>需要上真机确认的问题：</li>
+</ul>
 <ol>
-<li>如何只拉一个分支下来并且去掉tags？<br>先建一个仓和远端关联，再关联一个git remote upstream 接着fetch下来，然后删掉upstream，然后用此命令删除标签tags：  git tag | xargs -I {} git tag -d {}<br>如何加tags：git tag Copter-3.6.6 链接：<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001376951758572072ce1dc172b4178b910d31bc7521ee4000" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001376951758572072ce1dc172b4178b910d31bc7521ee4000</a></li>
-</ol>
+<li><p>为什么初始时候没接mavlink摇杆时，再接上去就不能接收此通道信息？<br>查找方法： 第一：看能否接收到70标志。第二：看 rc_override_enable 是否被初始化。若是能接收到70，则看为啥rc_override_enable为什么不被初始化。若是不能接收到找地面站端。</p>
+<blockquote>
+<p>为什么rc_override_enable不被初始化？<br>看了下代码，此部分必须被初始化。<br>要是这样的话，那么我们开始就必须接上mavlink摇杆。</p>
 </blockquote>
+</li>
+<li><p>为什么我拔掉mavlink摇杆后，遥控器就接入了？再接入摇杆接不上去？（第二个问好：因为那个rc_override_active标志没有更新为高电平）</p>
+</li>
+<li><p>为什么在地面上两个摇杆都能控制，解锁后就只能用一个控制了？</p>
 </li>
 </ol>
 
@@ -247,15 +237,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/02/14/SK1测试板遇到的坑/" class="pre-post btn btn-default" title="SK1测试板遇到的坑">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">SK1测试板遇到的坑</span>
-        </a>
     
-    
-        <a href="/2019/02/12/arrange-work-firmware/" class="next-post btn btn-default" title="arrange work firmware">
+        <a href="/2019/02/26/ChibiOS-hwdef-定义/" class="next-post btn btn-default" title="ChibiOS hwdef 定义">
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">arrange work firmware</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">ChibiOS hwdef 定义</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>
