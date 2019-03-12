@@ -225,11 +225,14 @@
 <li>罗盘2 噪点过大导致校准从第二步直接跳为第一步，明天注意查找<code>_fit_step</code>的含义。打出曲线看看。</li>
 </ol>
 <ol start="7">
-<li>自己拉APM仓时遇到的坑。<blockquote>
+<li><p>自己拉APM仓时遇到的坑。</p>
+<blockquote>
 <ol>
 <li>如何只拉一个分支下来并且去掉tags？<br>先建一个仓和远端关联，再关联一个git remote upstream 接着fetch下来，然后删掉upstream，然后用此命令删除标签tags：  git tag | xargs -I {} git tag -d {}<br>如何加tags：git tag Copter-3.6.6 链接：<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001376951758572072ce1dc172b4178b910d31bc7521ee4000" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001376951758572072ce1dc172b4178b910d31bc7521ee4000</a></li>
 </ol>
 </blockquote>
+</li>
+<li><p>出现loit模式推杆没反应情况。<br>发现把那个会侧翻的bug解决后，又出现这个改回去后就行了。为啥会这样,后续再研究。</p>
 </li>
 </ol>
 
