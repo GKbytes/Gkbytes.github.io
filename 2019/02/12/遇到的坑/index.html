@@ -234,6 +234,16 @@
 </li>
 <li><p>出现loit模式推杆没反应情况。<br>发现把那个会侧翻的bug解决后，又出现这个改回去后就行了。为啥会这样,后续再研究。</p>
 </li>
+<li><p>APM装毫米波雷达定高时，需要修改的参数：</p>
+<blockquote>
+<p>EK2_RNG_USE_HGT 50  RNGFND2_TYPE 21   RNGFND_MAX_CM    2000  RNGFND_MIN_CM    60  RNGFND_TYPE    21<br>SERIAL4_BAUD    57     SERIAL4_PROTOCOL    9   EK2_ALT_SOURCE    1</p>
+</blockquote>
+</li>
+<li><p>安装ubuntu16.04遇到的坑</p>
+<blockquote>
+<p>分盘: 分你的ram大小的swap: 16G主分区   分512M的/boot 非主分区 其余全部给/<br>安装时候最好是联网安装而且把需要下载的MP3那部分也点着下载，不然之后会折腾很久。比如登录不进去，再比如显示的很多问题。<br>千万不要卸载ubuntu下的Python3.5，卸载了之后会把所有的应用都卸载掉。</p>
+</blockquote>
+</li>
 </ol>
 
     </div>
@@ -250,9 +260,9 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/02/14/SK1测试板遇到的坑/" class="pre-post btn btn-default" title="SK1测试板遇到的坑">
+        <a href="/2019/02/16/Ardupilot-chibios-study-notes/" class="pre-post btn btn-default" title="Ardupilot chibios study notes">
             <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">SK1测试板遇到的坑</span>
+            <span class="hidden-xs">Ardupilot chibios study notes</span>
         </a>
     
     
