@@ -285,6 +285,18 @@
 <blockquote>
 <p>发现中间由于开了个_angle_boost_enabled （此部分为有倾角时飞机进行油门补偿），我发现这部分完全为鸡肋，在平常有倾角时候倒没有进行补偿，在激烈晃动时候才补偿，导致失控时候。此部分为鸡肋故可以先去掉此值。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// returns a throttle including compensation for roll/pitch angle</span></span><br><span class="line"><span class="comment">// throttle value should be 0 ~ 1</span></span><br><span class="line">float AC_AttitudeControl_Multi::get_throttle_boosted(float throttle_in)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!_angle_boost_enabled) &#123;</span><br><span class="line">        _angle_boost = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> throttle_in;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// inverted_factor is 1 for tilt angles below 60 degrees</span></span><br><span class="line">    <span class="comment">// inverted_factor reduces from 1 to 0 for tilt angles between 60 and 90 degrees</span></span><br><span class="line"></span><br><span class="line">    float cos_tilt = _ahrs.cos_pitch() * _ahrs.cos_roll();</span><br><span class="line">    float inverted_factor = constrain_float(<span class="number">2.0</span>f*cos_tilt, <span class="number">0.0</span>f, <span class="number">1.0</span>f);</span><br><span class="line">    float boost_factor = <span class="number">1.0</span>f/constrain_float(cos_tilt, <span class="number">0.5</span>f, <span class="number">1.0</span>f);</span><br><span class="line"></span><br><span class="line">    float throttle_out = throttle_in*inverted_factor*boost_factor;</span><br><span class="line">    _angle_boost = constrain_float(throttle_out - throttle_in,<span class="number">-1.0</span>f,<span class="number">1.0</span>f);</span><br><span class="line">    <span class="keyword">return</span> throttle_out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
+<ol start="17">
+<li><p>明天毫米波雷达的人过来对接，我希望我能搞定，现在开始写那个nra24的驱动，好像这个固件有点问题？</p>
+<blockquote>
+<p>先把那个nra24毫米波雷达数据读出来再作处理。</p>
+</blockquote>
+</li>
+<li><p>对于飞控板主控芯片安装超级电容的理由？</p>
+<blockquote>
+<p>对于飞机在空中就收到电压在减小就说明电没了。<br>对于飞控在空中没收到电压减小就掉下来了，在下来后飞控电路通的情况下，可以断定为飞控挂掉了。</p>
+</blockquote>
+</li>
+</ol>
 
     </div>
     
