@@ -288,13 +288,33 @@
 <ol start="17">
 <li><p>明天毫米波雷达的人过来对接，我希望我能搞定，现在开始写那个nra24的驱动，好像这个固件有点问题？</p>
 <blockquote>
-<p>先把那个nra24毫米波雷达数据读出来再作处理。</p>
+<p>先把那个nra24毫米波雷达数据读出来再作处理，最后证明固件没问题。</p>
 </blockquote>
 </li>
 <li><p>对于飞控板主控芯片安装超级电容的理由？</p>
 <blockquote>
 <p>对于飞机在空中就收到电压在减小就说明电没了。<br>对于飞控在空中没收到电压减小就掉下来了，在下来后飞控电路通的情况下，可以断定为飞控挂掉了。</p>
 </blockquote>
+</li>
+<li><p>由于APM代码定高不稳，故现在重新做定高部分。</p>
+<blockquote>
+<p>19.1 先分析高度控制代码，从althold代码分析。<br>分析<code>Copter::ModeAltHold::run()</code><br>初始化垂直速度和加速度：<br>从这里可以看到有两个参数可以调节：1. g.pilot_accel_z    2. g.pilot_speed_up</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment">// initialize vertical speeds and acceleration</span></span><br><span class="line">    pos_control-&gt;set_speed_z(-get_pilot_speed_dn(), g.pilot_speed_up);</span><br><span class="line">    pos_control-&gt;set_accel_z(g.pilot_accel_z);</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<p>此地方就是获得倾角的地方。</p>
+<blockquote>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment">// get pilot desired lean angles</span></span><br><span class="line">    float target_roll, target_pitch;</span><br><span class="line">    get_pilot_desired_lean_angles(target_roll, target_pitch, copter.aparm.angle_max, attitude_control-&gt;get_althold_lean_angle_max());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// get pilot's desired yaw rate</span></span><br><span class="line">    float target_yaw_rate = get_pilot_desired_yaw_rate(channel_yaw-&gt;get_control_in());</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ol start="20">
+<li><p>气压计选型</p>
+</li>
+<li><p>spl06-001/DPS310(玩具使用)<br>压力传感器分辨率：±0.005 hPa（或±0.05 m）（高精度模式）<br>相对精度：±0.06 hPa（或±0.5 m）<br>绝对精度：±1 hPa（或±8 m）</p>
+</li>
+<li><p>LPS22HH（目前性能最优）<br>压力传感器分辨率：±0.005 hPa（或±0.05 m）（高精度模式）<br>相对精度 0.025 hpa<br>绝对压力精度: ±0.5 hPa  </p>
+</li>
+<li><p>MS5611(目前在用)<br>压力传感器分辨率：±0.012 hPa（或±0.12 m）（高精度模式）<br>绝对压力精度: ±1.5 hPa  </p>
 </li>
 </ol>
 
