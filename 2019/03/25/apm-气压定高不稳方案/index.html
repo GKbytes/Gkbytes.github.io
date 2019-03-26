@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="笔记">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://gkbytes.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="">
+
+
+    <meta name="description" content="
+由于APM代码定高不稳，故现在重新做定高部分。
+
+
+可以调节的参数：PSC_POSZ_P：位置（垂直）控制器P增益位置（垂直）控制器P增益。将所需高度和实际高度之间的差值转换为传递到节流率控制...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>apm 气压定高不稳方案 | 笔记</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="Byte">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://gkbytes.github.io">笔记</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/APM/"><i class="fa "></i>APM</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/PX4/"><i class="fa "></i>PX4</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/电调/"><i class="fa "></i>电调</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Android/"><i class="fa "></i>Android</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Tool/"><i class="fa "></i>Tool</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Git/"><i class="fa "></i>Git</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>C++</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>Time</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="apm 气压定高不稳方案">
+            
+	            apm 气压定高不稳方案
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/03/25</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ol>
+<li>由于APM代码定高不稳，故现在重新做定高部分。</li>
+</ol>
+<blockquote>
+<p>可以调节的参数：<br>PSC_POSZ_P：位置（垂直）控制器P增益<br>位置（垂直）控制器P增益。将所需高度和实际高度之间的差值转换为传递到节流率控制器的爬升率或下降率<br> PILOT_THR_FILT：油门滤波器截止<br>油门滤波器截止频率（Hz） - 每当高度控制无效时激活 - 0表示禁用<br> PILOT_TKOFF_ALT：飞行员起飞高度<br>当油门杆触发起飞时，高度控制模式将爬升到的高度<br>PILOT_ACCEL_Z：飞行员垂直加速度<br>飞行员控制高度时使用的垂直加速度<br>ATC_ANG_LIM_TC：角度限制（保持高度）时间常数<br>角度限制（保持高度）时间常数<br>EK2_WIND_PSCALE: Height rate to wind process noise scaler<br> GND_ALT_OFFSET：海拔偏移<br>高度偏移量，以米为单位添加到气压高度。这用于允许通过配备气压计的地面站自动调节基本气压高度。该值被添加到飞机读取的气压高度。当每次重启时校准气压计或执行预检校准时，它会自动重置为0。</p>
+</blockquote>
+<blockquote>
+<p>1.1 先分析高度控制代码，从althold代码分析。<br>分析<code>Copter::ModeAltHold::run()</code><br>初始化垂直速度和加速度：<br>从这里可以看到有两个参数可以调节：1. g.pilot_accel_z    2. g.pilot_speed_up<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment">// initialize vertical speeds and acceleration</span></span><br><span class="line">    pos_control-&gt;set_speed_z(-get_pilot_speed_dn(), g.pilot_speed_up);</span><br><span class="line">    pos_control-&gt;set_accel_z(g.pilot_accel_z);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>此地方就是获得倾角的地方。</p>
+<blockquote>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;  <span class="comment">// get pilot desired lean angles</span></span><br><span class="line">&gt;   float target_roll, target_pitch;</span><br><span class="line">&gt;   get_pilot_desired_lean_angles(target_roll, target_pitch, copter.aparm.angle_max, attitude_control-&gt;get_althold_lean_angle_max());</span><br><span class="line"></span><br><span class="line">&gt;  <span class="comment">// get pilot's desired yaw rate</span></span><br><span class="line">&gt;   float target_yaw_rate = get_pilot_desired_yaw_rate(channel_yaw-&gt;get_control_in());</span><br><span class="line"></span><br><span class="line">&gt;  <span class="comment">// get pilot desired climb rate</span></span><br><span class="line">&gt;    float target_climb_rate = get_pilot_desired_climb_rate(channel_throttle-&gt;get_control_in());</span><br><span class="line">&gt;    target_climb_rate = constrain_float(target_climb_rate, -get_pilot_speed_dn(), g.pilot_speed_up);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ol start="2">
+<li>气压计选型</li>
+</ol>
+<p>2.1. spl06-001/DPS310(玩具使用)<br>压力传感器分辨率：±0.005 hPa（或±0.05 m）（高精度模式）<br>相对精度：±0.06 hPa（或±0.5 m）<br>绝对精度：±1 hPa（或±8 m）</p>
+<p>2.2. LPS22HH（目前性能最优）<br>压力传感器分辨率：±0.005 hPa（或±0.05 m）（高精度模式）<br>相对精度 0.025 hpa<br>绝对压力精度: ±0.5 hPa  </p>
+<p>2.3. MS5611(目前在用)<br>压力传感器分辨率：±0.012 hPa（或±0.12 m）（高精度模式）<br>绝对压力精度: ±1.5 hPa</p>
+<ol start="3">
+<li>分析定高控制代码：</li>
+</ol>
+<p>3.1 <code>pos_control-&gt;set_alt_target_from_climb_rate_ff(target_climb_rate, G_Dt, false);</code></p>
+<ul>
+<li>target_climb_rate：<code>target_climb_rate = get_pilot_desired_climb_rate(channel_throttle-&gt;get_control_in());</code> 让输入油门杆量转换为期望速率。若是在油门死区以上或者以下就判定为手动操作，当油门在中位时，让desired_rate = 0;</li>
+<li>在定高时，目标攀爬率为0<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// set_alt_target_from_climb_rate_ff - adjusts target up or down using a climb rate in cm/s using feed-forward</span></span><br><span class="line"><span class="comment">///     should be called continuously (with dt set to be the expected time between calls)</span></span><br><span class="line"><span class="comment">///     actual position target will be moved no faster than the speed_down and speed_up</span></span><br><span class="line"><span class="comment">///     target will also be stopped if the motors hit their limits or leash length is exceeded</span></span><br><span class="line"><span class="comment">///     set force_descend to true during landing to allow target to move low enough to slow the motors</span></span><br><span class="line"><span class="keyword">void</span> AC_PosControl::set_alt_target_from_climb_rate_ff(float climb_rate_cms, float dt, bool force_descend)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// calculated increased maximum acceleration if over speed</span></span><br><span class="line">    float accel_z_cms = _accel_z_cms;</span><br><span class="line">    <span class="keyword">if</span> (_vel_desired.z &lt; _speed_down_cms &amp;&amp; !is_zero(_speed_down_cms)) &#123;</span><br><span class="line">        accel_z_cms *= POSCONTROL_OVERSPEED_GAIN_Z * _vel_desired.z / _speed_down_cms;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_vel_desired.z &gt; _speed_up_cms &amp;&amp; !is_zero(_speed_up_cms)) &#123;</span><br><span class="line">        accel_z_cms *= POSCONTROL_OVERSPEED_GAIN_Z * _vel_desired.z / _speed_up_cms;</span><br><span class="line">    &#125;</span><br><span class="line">    accel_z_cms = constrain_float(accel_z_cms, <span class="number">0.0</span>f, <span class="number">750.0</span>f);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// jerk_z is calculated to reach full acceleration in 1000ms.</span></span><br><span class="line">    float jerk_z = accel_z_cms * POSCONTROL_JERK_RATIO;</span><br><span class="line"></span><br><span class="line">    float accel_z_max = MIN(accel_z_cms, safe_sqrt(<span class="number">2.0</span>f*fabsf(_vel_desired.z - climb_rate_cms)*jerk_z));</span><br><span class="line"></span><br><span class="line">    _accel_last_z_cms += jerk_z * dt;</span><br><span class="line">    _accel_last_z_cms = MIN(accel_z_max, _accel_last_z_cms);</span><br><span class="line"></span><br><span class="line">    float vel_change_limit = _accel_last_z_cms * dt;</span><br><span class="line">    _vel_desired.z = constrain_float(climb_rate_cms, _vel_desired.z-vel_change_limit, _vel_desired.z+vel_change_limit);</span><br><span class="line">    _flags.use_desvel_ff_z = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// adjust desired alt if motors have not hit their limits</span></span><br><span class="line">    <span class="comment">// To-Do: add check of _limit.pos_down?</span></span><br><span class="line">    <span class="keyword">if</span> ((_vel_desired.z&lt;<span class="number">0</span> &amp;&amp; (!_motors.limit.throttle_lower || force_descend)) || (_vel_desired.z&gt;<span class="number">0</span> &amp;&amp; !_motors.limit.throttle_upper &amp;&amp; !_limit.pos_up)) &#123;</span><br><span class="line">        _pos_target.z += _vel_desired.z * dt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>问题：_vel_desired.z 是哪里得到的呢？<br>在底下<code>_vel_desired.z = constrain_float(climb_rate_cms, _vel_desired.z-vel_change_limit, _vel_desired.z+vel_change_limit);</code>会发现<code>climb_rate_cms</code>此值在定高时候0 定高时候最后得到_vel_desired.z这个值。</p>
+<ul>
+<li>接下来看<code>void AC_PosControl::run_z_controller();</code><blockquote>
+<p>下面解释了为什么目标高度会跟着实际高度走，实际高度会把目标高度拉着上升。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// do not let target altitude get too far from current altitude</span></span><br><span class="line"><span class="keyword">if</span> (_pos_error.z &gt; _leash_up_z) &#123;</span><br><span class="line">    _pos_target.z = curr_alt + _leash_up_z;</span><br><span class="line">    _pos_error.z = _leash_up_z;</span><br><span class="line">    _limit.pos_up = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (_pos_error.z &lt; -_leash_down_z) &#123;</span><br><span class="line">    _pos_target.z = curr_alt - _leash_down_z;</span><br><span class="line">    _pos_error.z = -_leash_down_z;</span><br><span class="line">    _limit.pos_down = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>接下来速度前馈就被加进来了：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add feed forward component</span></span><br><span class="line"><span class="keyword">if</span> (_flags.use_desvel_ff_z) &#123;</span><br><span class="line">    _vel_target.z += _vel_desired.z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不知道这个pid是怎么来的，待会打点看看这个pid如何得到？</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2019/03/16/python-笔记/" class="next-post btn btn-default" title="python 笔记">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">python 笔记</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: ''.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">Table of Contents</h3>
+        
+            <p>暂无目录</p>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
+
