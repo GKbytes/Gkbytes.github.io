@@ -1,0 +1,336 @@
+<!DOCTYPE HTML>
+<html lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="笔记">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://gkbytes.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="">
+
+
+    <meta name="description" content="
+接收来自地面站的消息
+从哪里来？从Mavlink这一帧里来： MAVLINK_MSG_ID_MAVLINK_2_CAN  195从mavlink解出控制挂载的can包：hal.can_mgr[...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>挂载通信 | 笔记</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="Byte">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://gkbytes.github.io">笔记</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/APM/"><i class="fa "></i>APM</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/PX4/"><i class="fa "></i>PX4</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/电调/"><i class="fa "></i>电调</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Android/"><i class="fa "></i>Android</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Tool/"><i class="fa "></i>Tool</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Git/"><i class="fa "></i>Git</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>C++</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>Time</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="挂载通信">
+            
+	            挂载通信
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/03/27</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ol>
+<li>接收来自地面站的消息<blockquote>
+<p>从哪里来？<br>从Mavlink这一帧里来： MAVLINK_MSG_ID_MAVLINK_2_CAN  195<br>从mavlink解出控制挂载的can包：hal.can_mgr[0]-&gt;get_MMCCAN()-&gt;update_gcs2can(mavlink2can.buf,mavlink2can.valid_len,mavlink2can.can_id);<br>必须先熟悉原生mavlink里面定义的一些消息，然后列出来，做成笔记，用来干嘛的都写出来。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新从地面站发送过来的mavlink到can的包</span></span><br><span class="line"><span class="keyword">void</span> AP_MMCCAN::update_gcs2can(uint8_t* buf, uint16_t size, uint16_t can_id)&#123;</span><br><span class="line">	can_write_packet_t gcs2can_info;</span><br><span class="line">	gcs2can_info.can_id = can_id;</span><br><span class="line">	gcs2can_info.length = size;</span><br><span class="line">	gcs2can_info.send_index = <span class="number">0</span>;</span><br><span class="line">	memcpy(gcs2can_info.buf,buf,size);</span><br><span class="line">    <span class="comment">// printf("update_gcs2can %d\n",buf[4]);</span></span><br><span class="line">	can_write_packets_queue.push_force(gcs2can_info); <span class="comment">// 将can包加入缓冲区域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ringbuff这部分需要看下<br>然后接收到了地面站的消息。</p>
+</blockquote>
+<ol start="2">
+<li>接着该如何把消息通过can传递给挂载。</li>
+</ol>
+<p>通过此部分把接收到的can消息push出去，然后让云台那边接收到数据，仅此而已。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 相机触发拍照指令,并将当前飞机的高度和经纬度下发，buf为上层附带的信息</span></span><br><span class="line"><span class="keyword">void</span> AP_MMCCAN::cam_trigger(uint8_t* buf,uint16_t size)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(uint8_t i = <span class="number">0</span>; i &lt; MAX_PATLOAD_NUM; i ++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(payload_num[i]) &#123;</span><br><span class="line">			<span class="keyword">if</span>(need_gimbal_ctrl(payload_num[i]) || payload_num[i] == CAN_PAYLOAD_TILT_PHOTO_UP_ID) &#123;</span><br><span class="line">				can_write_packet_t trigger;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 根据当前挂载类型发送不同的挂载id;</span></span><br><span class="line">				trigger.can_id = payload_num[i] &amp; <span class="number">0x0FF</span>;</span><br><span class="line">				trigger.length = size;</span><br><span class="line">				trigger.send_index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">				memcpy(trigger.buf, buf, size);</span><br><span class="line">				can_write_packets_queue.push_force(trigger); <span class="comment">// 将can包加入缓冲区域</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 发送云台控制指令</span></span><br><span class="line"><span class="keyword">void</span> AP_MMCCAN::gimbla_ctrl(uint8_t* buf, uint16_t size)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 根据上行id发送下行id</span></span><br><span class="line">	<span class="keyword">for</span>(uint8_t i = <span class="number">0</span>; i &lt; MAX_PATLOAD_NUM; i ++) &#123;</span><br><span class="line">		<span class="keyword">if</span>(payload_num[i]) &#123;</span><br><span class="line">			<span class="keyword">if</span>(need_gimbal_ctrl(payload_num[i]))&#123;</span><br><span class="line">				<span class="comment">// 以0xa和以0xb结尾的can id都需要云台控制信息</span></span><br><span class="line">				can_write_packet_t ctrl;</span><br><span class="line">				<span class="comment">// 根据当前挂载类型发送不同的挂载id;</span></span><br><span class="line">				ctrl.can_id = payload_num[i] &amp; <span class="number">0x0FF</span>;</span><br><span class="line">				ctrl.length = size;</span><br><span class="line">				ctrl.send_index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">				memcpy(ctrl.buf, buf, size);</span><br><span class="line">				can_write_packets_queue.push_force(ctrl); <span class="comment">// 将can包加入缓冲区域</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后就完事儿，控制部分就算能接收到了。</p>
+<ol start="3">
+<li><p>如何发送GPS信息到云台。</p>
+<blockquote>
+<p>在触发拍照时候，同时把gps经纬度信息发送下去。<br>然后就算完事儿。</p>
+</blockquote>
+</li>
+<li><p>上面主要是mmccan这一套，现在来看uavcan这一套。<br>4.1 首先定义mmc dsdl。</p>
+</li>
+</ol>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2019/03/25/apm-气压定高不稳方案/" class="next-post btn btn-default" title="apm 气压定高不稳方案">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">apm 气压定高不稳方案</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: ''.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">Table of Contents</h3>
+        
+            <p>暂无目录</p>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
+
