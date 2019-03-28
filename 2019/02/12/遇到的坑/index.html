@@ -319,8 +319,15 @@
 <ol start="21">
 <li>现在加入歌尔气压计，貌似这个协议和DPS280一样，故现在我们开始对比协议咯。</li>
 <li>首先对比协议</li>
-<li>再来看如何调用一个IIC的气压计</li>
+<li><p>再来看如何调用一个IIC的气压计</p>
+</li>
+<li><p>出现一个pwm输出最后为定值然后就直接翻转下降。</p>
+<blockquote>
+<p>如果px4io给了我们一个这个通道的值，那么使用这个值，否则使用上次发送的值。这样便于观察PX4IO中的故障保护行为。<br>其实此时小IO已经没有输出了，然后飞控没死。初步判断硬件挂了</p>
+</blockquote>
+</li>
 </ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">uint16_t PX4RCOutput::read(uint8_t ch) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= PX4_NUM_OUTPUT_CHANNELS) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (uint8_t i=<span class="number">0</span>; i&lt;ORB_MULTI_MAX_INSTANCES; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_outputs[i].pwm_sub &gt;= <span class="number">0</span> &amp;&amp; </span><br><span class="line">            ch &lt; _outputs[i].outputs.noutputs &amp;&amp;</span><br><span class="line">            _outputs[i].outputs.output[ch] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> _outputs[i].outputs.output[ch];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _period[ch];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
     
