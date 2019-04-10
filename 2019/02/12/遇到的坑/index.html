@@ -328,6 +328,11 @@
 </li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">uint16_t PX4RCOutput::read(uint8_t ch) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= PX4_NUM_OUTPUT_CHANNELS) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (uint8_t i=<span class="number">0</span>; i&lt;ORB_MULTI_MAX_INSTANCES; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_outputs[i].pwm_sub &gt;= <span class="number">0</span> &amp;&amp; </span><br><span class="line">            ch &lt; _outputs[i].outputs.noutputs &amp;&amp;</span><br><span class="line">            _outputs[i].outputs.output[ch] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> _outputs[i].outputs.output[ch];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _period[ch];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="23">
+<li>RTL降落时，分段速度。<br>23.1 LAND_SPEED：着地第二阶段速度cm/s<br>23.2 LAND_SPEED_HIGH：着地第一阶段速度cm/s。第一阶段着陆的下降速度，单位为cm/s。如果为零，则使用WPNAV_SPEED_DN。</li>
+</ol>
+<p>24 挂载需要适配多一些挂载，且发送GPS信息请求与发送有些问题。<br>24.1 有个挂载ID为19A，现在不能识别。</p>
+<p>24.2 拍照指令都应该发送GPS信息，B、D、3结尾的指令都应该发送GPS信息。</p>
 
     </div>
     
