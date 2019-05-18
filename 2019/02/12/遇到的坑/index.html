@@ -358,7 +358,10 @@
 <li>hardfault 里面有堆栈信息，哪个函数到哪里了。做个串口打印出来就可以查到哪里死机了。</li>
 </ol>
 <ol start="29">
-<li>这两天遇到一个问题：ardupilot中的libraries中新建一个文件夹，定义在.cpp中，但是声明却在.h中，最后在arducopter.cpp中用，但是死活都链接不起来，后来发现在waf中有个包含文件夹，没加入waf的Python自动链接里去，故会产生此现象，现在把此文件夹加入就ok了。</li>
+<li><p>这两天遇到一个问题：ardupilot中的libraries中新建一个文件夹，定义在.cpp中，但是声明却在.h中，最后在arducopter.cpp中用，但是死活都链接不起来，后来发现在waf中有个包含文件夹，没加入waf的Python自动链接里去，故会产生此现象，现在把此文件夹加入就ok了。</p>
+</li>
+<li><p>今天过来想把国网协议加到frsky中，但是发现frsky的初始化数据都跑不起来，后来发现是因为：<code>#define FRSKY_TELEM_ENABLED ENABLED</code>没开。加入既OK。</p>
+</li>
 </ol>
 
     </div>
