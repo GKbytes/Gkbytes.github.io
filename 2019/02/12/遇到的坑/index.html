@@ -333,6 +333,33 @@
 </ol>
 <p>24 挂载需要适配多一些挂载，且发送GPS信息请求与发送有些问题。<br>24.1 有个挂载ID为19A，现在不能识别。</p>
 <p>24.2 拍照指令都应该发送GPS信息，B、D、3结尾的指令都应该发送GPS信息。</p>
+<blockquote>
+<p>目前来说无人机在触发拍照，是通过辅助通道打高低电平来实现拍照，不通过can。<br>在触发拍照时候，同时把gps经纬度信息发送下去。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#if HAL_WITH_UAVCAN</span><br><span class="line">	cam_pos_info_t cam_pos;</span><br><span class="line">	cam_pos.head   = <span class="number">0xA5</span>;</span><br><span class="line">	cam_pos.length  = <span class="number">16</span>;</span><br><span class="line">	cam_pos.type    =<span class="number">0x01</span>;</span><br><span class="line">	cam_pos.lat = current_loc.lat;</span><br><span class="line">	cam_pos.lng = current_loc.lng;</span><br><span class="line">	cam_pos.alt = current_loc.alt;</span><br><span class="line">	cam_pos.cam_index = _image_index;</span><br><span class="line">	cam_pos.crc  = CRC8Software(&amp;cam_pos.type,cam_pos.length);</span><br><span class="line">	<span class="keyword">if</span>( hal.can_mgr[<span class="number">0</span>] != nullptr &amp;&amp;  hal.can_mgr[<span class="number">0</span>]-&gt;get_MMCCAN() != nullptr)</span><br><span class="line">		hal.can_mgr[<span class="number">0</span>]-&gt;get_MMCCAN()-&gt;cam_trigger((uint8_t *)&amp;cam_pos,sizeof(cam_pos));</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ol start="25">
+<li>航线定点抛投。<br>先看一下<code>cam_trigger</code>用到相机触发的函数在<code>trigger_pic</code>里面</li>
+</ol>
+<ol start="26">
+<li><p>ubuntu 16.04 nvidia显卡驱动选不合适的，会出现登录页面循环登录不进去。<br>解决方法： 26.1. 同时按下 CTRL+ALT+F1  进入命令行模式。<br>26.2. 关闭显卡驱动，输入：sudo service lightdm stop<br>26.3. 卸载NVIDIA驱动，输入：sudo apt-get purge nvidia*</p>
+</li>
+<li><p>查找出现“Critical: PreArm: Polygon boundary invalid”。</p>
+</li>
+</ol>
+<blockquote>
+<p>从这个链接可知，我们需要设置一个Set Return Location <code>http://ardupilot.org/copter/docs/polygon_fence.html#overview</code> 但是现在他们没有设置，先把这个设置了再去查看代码问题。<br>报这个错误原因：</p>
+<ol>
+<li>如果没有点。</li>
+<li>默认你的设置里包含返回点，这个设置也没用，只不过同一套底层，设置可以不用。 </li>
+<li>现在默认必须打5个点才不报错，现在我不知道四边型你传给我的是5个点还是4个点。</li>
+<li>第0个点默认为返回点，若是返回点在围栏外则也是报错。</li>
+</ol>
+</blockquote>
+<ol start="28">
+<li>hardfault 里面有堆栈信息，哪个函数到哪里了。做个串口打印出来就可以查到哪里死机了。</li>
+</ol>
+<ol start="29">
+<li>这两天遇到一个问题：ardupilot中的libraries中新建一个文件夹，定义在.cpp中，但是声明却在.h中，最后在arducopter.cpp中用，但是死活都链接不起来，后来发现在waf中有个包含文件夹，没加入waf的Python自动链接里去，故会产生此现象，现在把此文件夹加入就ok了。</li>
+</ol>
 
     </div>
     
